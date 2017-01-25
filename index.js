@@ -1,7 +1,7 @@
 var gCal = require('google-calendar');
 var auth = require('./auth.js');
 
-var nowDate = new Date("January 17, 2017 11:13:00");
+var nowDate = new Date("January 6, 2017 11:13:00");
 var tomorowDate = new Date(nowDate.getTime() + 86400000);
 var today = getDMY(nowDate);
 var tomorow = getDMY(tomorowDate);
@@ -20,7 +20,8 @@ calendar.events.list('hir.7@hackreactor.com', options, function(err, calendarLis
   if (err) {
     return console.log(err);
   }
-  console.log(parseCalenderList(calendarList));
+  var data = parseCalenderList(calendarList);
+  findOpenings(data[0], data[1]);
 });
 
 
@@ -45,4 +46,34 @@ function parseCalenderList(data) {
     }
   });
   return [slots, interviews];
+}  
+
+function findOpenings(slots, interviews) {
+
+  var freeSlots = slots.filter(function(slot) {
+    var notFound = true;
+    var slotTime = slot.start.dateTime.split('T')[1];
+    interviews.forEach(function(interview) {
+      var interviewTime = interview.start.dateTime.split('T')[1];
+      if (slotTime === interviewTime) {
+        notFound = false;
+      }
+    });
+    return notFound;
+  });
+
+  return freeSlots;
+     
 }
+
+
+
+
+
+
+
+
+
+
+
+
