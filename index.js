@@ -16,12 +16,18 @@ var options = {
   'timeMin': `${today[2]}-${today[1]}-${today[0]}T00:00:00-07:00`
 };
 
-
+var queryPromises = [];
 for (var key in people.hirs) {
-  queryCalender(key);
+  queryPromises.push(queryCalenderPromise(key));
 }
 
-function queryCalender(hirNumber) {
+Promise.all(queryPromises)
+  .then(console.log)
+  .catch(console.log);
+
+// //////////////////////////////////////////////////////////////
+
+function queryCalenderPromise(hirNumber) {
 
   return new Promise(function(resolve, reject) {
     calendar.events.list(`hir.${hirNumber}@hackreactor.com`, options, function(err, calendarList) {
@@ -83,6 +89,26 @@ function extractSlotsData(hirNumber, slots) {
   });
 }
 
+function flatten(matrix) {
+  var result = [];
+
+  var spread = function(array) {
+    if (array[0] && !Array.isArray(array[0][0])) {
+      array.forEach(function(item) {
+        result.push(item);
+      });
+      return;
+    } else {
+      array.forEach(function(item) {
+        spread(item);
+      });
+    }
+  };
+
+  spread(matrix);
+
+  return result;
+}
 
 
 
