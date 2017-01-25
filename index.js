@@ -2,7 +2,7 @@ var gCal = require('google-calendar');
 var auth = require('./auth.js');
 var people = require('./constants.js');
 
-var nowDate = new Date("January 6, 2017 11:13:00");
+var nowDate = new Date("Februry 10, 2017 11:13:00");
 var tomorowDate = new Date(nowDate.getTime() + 86400000);
 var today = getDMY(nowDate);
 var tomorow = getDMY(tomorowDate);
@@ -16,19 +16,25 @@ var options = {
   'timeMin': `${today[2]}-${today[1]}-${today[0]}T00:00:00-07:00`
 };
 
-function queryCalender(hirNumber) {
-  calendar.events.list(`hir.${hirNumber}@hackreactor.com`, options, function(err, calendarList) {
-    if (err) {
-      return console.log(err);
-    }
-    var data = parseCalenderList(calendarList);
-    findOpenings(data[0], data[1]);
-  });
+
+for (var key in people.hirs) {
+  queryCalender(key);
 }
 
+function queryCalender(hirNumber) {
 
+  return new Promise(function(resolve, reject) {
+    calendar.events.list(`hir.${hirNumber}@hackreactor.com`, options, function(err, calendarList) {
+      if (err) {
+        reject(err);
+      }
+      var data = parseCalenderList(calendarList);
+      var freeSlots = findOpenings(data[0], data[1]);
 
-
+      resolve(extractSlotsData(hirNumber, freeSlots));
+    });
+  });
+}
 
 function getDMY(dateObj) {
   var day = dateObj.getDate();
@@ -71,6 +77,11 @@ function findOpenings(slots, interviews) {
      
 }
 
+function extractSlotsData(hirNumber, slots) {
+  return slots.map(function(slot) {
+    return [slot.start.dateTime, people.hirs[hirNumber][0], people.hirs[hirNumber][1]];
+  });
+}
 
 
 
