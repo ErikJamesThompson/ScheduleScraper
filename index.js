@@ -22,7 +22,9 @@ for (var key in people.hirs) {
 }
 
 Promise.all(queryPromises)
-  .then(console.log)
+  .then(function(data) {
+    console.log(organizeOpenings(flatten(data)));
+  })
   .catch(console.log);
 
 // //////////////////////////////////////////////////////////////
@@ -110,6 +112,18 @@ function flatten(matrix) {
   return result;
 }
 
+function organizeOpenings(openings) {
+  var results = openings.reduce(function(acc, crr){
+    if (acc[crr[1]] === undefined) {
+      acc[crr[1]] = [crr[2], [crr[0]]];
+      return acc;
+    } else {
+      acc[crr[1]][1].push(crr[0]);
+      return acc;
+    }
+  }, {});
+  return results;
+}
 
 
 
