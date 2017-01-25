@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/dylanlrrb/ScheduleScraper#readme",
   "dependencies": {
-    "google-auth-library": "^0.10.0",
-    "googleapis": "^16.1.0"
+    "google-calendar": "^1.3.2"
   }
 }
