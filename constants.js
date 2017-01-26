@@ -15,6 +15,6 @@ module.exports = {
 
   signiture: 'Dylan Larrabee',
   email: 'dylan.larrabee@hackreactor.com',
-  team: ['dylanlarrabee6@gmail.com', 'dylan.r.larrabee@gmail.com'],
+  team: ['sfm.technical.mentors.team@hackreactor.com', 'sfm.counselors.team@hackreactor.com'],
 
 };
