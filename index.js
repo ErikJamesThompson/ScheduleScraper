@@ -213,8 +213,10 @@ function sendTo(param, openings) {
   });
   
 }
-// check to see if email shows up as spam for staff
+// email shows up as spam, refactor to not use the 'team' param
 // separate the files into a more organized structure
+// make standalone script that you can run from your computer with node mailer
+
 // run the script locally
 // figure out how to use env variables to store sensitive information
 // create one worker script that renews token and sends email
