@@ -11,7 +11,7 @@ module.exports = {
     "The architects are still drafting...",
     "Breeding the bits...",
     "We're building the buildings as fast as we can",
-    "...and enjoy the elevator music...",
+    "Enjoying the elevator music...",
     "Checking the gravitational constant in your locale...",
     "Reconfoobling energymotron...",
     "Counting backwards from Infinity...",

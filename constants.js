@@ -13,6 +13,8 @@ module.exports = {
     '12': ['Autumn', 'hir.12@hackreactor.com']
   }, 
 
-  signiture: 'Dylan Larrabee'
+  signiture: 'Dylan Larrabee',
+  email: 'dylan.larrabee@hackreactor.com',
+  team: ['dylanlarrabee6@gmail.com', 'dylan.r.larrabee@gmail.com'],
 
 };

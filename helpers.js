@@ -119,7 +119,7 @@ module.exports = {
   buildEmail: function (param, openings) {
     openings = this.organizeOpenings(this.flatten(openings));
 
-    var to = ['dylan.larrabee@hackreactor.com'];
+    var to = [people.email];
     var subject;
     var message;
 
@@ -138,7 +138,7 @@ module.exports = {
       // message += 'THIS PARTS FOR ME\n\nsfm.technical.mentors.team@hackreactor.com, sfm.counselors.team@hackreactor.com\nTo stop automatic emails, click here';
     }
     if (param === 'team') {
-      to = ['dylanlarrabee6@gmail.com', 'dylan.r.larrabee@gmail.com'];
+      to = people.team;
     }
     if (param === 'stop') {
       subject = 'STOPED';
@@ -166,11 +166,11 @@ module.exports = {
       console.log('Free Time Slots----------');
       console.log(this.organizeOpenings(this.flatten(openings)));
       console.log('');
-      return
+      return;
     } else if (command === 'broadcast') {
       var mail = this.buildEmail('team', openings);
       mailOptions = {
-        from: '"Dylan Larrabee" <dylan.larrabee@hackreactor.com>',
+        from: '"' + signiture + '" <' + people.email + '>',
         to: mail.to,
         subject: mail.subject,
         text: mail.message
@@ -178,7 +178,7 @@ module.exports = {
     } else if (command === 'self') {
       var mail = this.buildEmail('me', openings);
       mailOptions = {
-        from: '"Dylan Larrabee" <dylan.larrabee@hackreactor.com>',
+        from: '"' + signiture + '" <' + people.email + '>',
         to: mail.to,
         subject: mail.subject,
         text: mail.message
@@ -190,7 +190,7 @@ module.exports = {
       if (error) {
         console.log(error);
       } else {
-        console.log('\nE-mail sent!\n\n');
+        console.log('\nE-mail sent!\n');
         console.log('Accepted:', response.accepted);
         console.log('Rejected:', response.rejected);
         console.log('Response:', response.response);
