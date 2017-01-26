@@ -1,8 +1,8 @@
 // var sendmail = require('sendmail')();
 var nodemailer = require('nodemailer');
 var people = require('./constants.js');
-var signiture = 'Dylan Larrabee';
 var auth = require('./auth.js');
+var signiture = people.signiture;
 
 module.exports = {
 

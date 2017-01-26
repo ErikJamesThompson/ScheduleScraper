@@ -11,5 +11,8 @@ module.exports = {
     '10': ['Dan', 'hir.10@hackreactor.com'],
     '11': ['Susan', 'hir.11@hackreactor.com'],
     '12': ['Autumn', 'hir.12@hackreactor.com']
-  }
+  }, 
+
+  signiture: 'Dylan Larrabee'
+
 };
