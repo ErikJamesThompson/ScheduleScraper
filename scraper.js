@@ -1,5 +1,5 @@
 var gCal = require('google-calendar');
-
+var generateFunnies = require('./funnies.js').generateFunnies;
 var auth = require('./auth.js');
 var people = require('./constants.js');
 var refreshTokenPromise = require('./refresh.js').refreshTokenPromise;
@@ -43,10 +43,10 @@ module.exports = {
       return;
     }
 
-    console.log('Working...');
+    console.log(generateFunnies());
     refreshTokenPromise()
       .then(function(accesstoken) {
-        console.log('Working...');
+        console.log(generateFunnies());
         calendar = new gCal.GoogleCalendar(accesstoken);
         
         var queryPromises = [];
@@ -57,7 +57,8 @@ module.exports = {
         return Promise.all(queryPromises);
       })
       .then(function(data) {
-        console.log('Working...');
+        console.log(generateFunnies());
+        console.log('');
         helpers.sendTo(command, data);
       })
       .catch(console.log);

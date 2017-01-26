@@ -1,4 +1,4 @@
-var sendmail = require('sendmail')();
+// var sendmail = require('sendmail')();
 var nodemailer = require('nodemailer');
 var people = require('./constants.js');
 var signiture = 'Dylan Larrabee';
@@ -163,7 +163,9 @@ module.exports = {
     var mailOptions;
 
     if (command === 'check') {
+      console.log('----------');
       console.log(this.organizeOpenings(this.flatten(openings)));
+      console.log('');
       return
     } else if (command === 'broadcast') {
       var mail = this.buildEmail('team', openings);
@@ -189,7 +191,10 @@ module.exports = {
         console.log(error);
       } else {
         console.log('\nE-mail sent!\n\n');
-        console.log(response);
+        console.log('Accepted:', response.accepted);
+        console.log('Rejected:', response.rejected);
+        console.log('Response:', response.response);
+        console.log('');
       }
     });
   }
