@@ -1,6 +1,8 @@
 var gCal = require('google-calendar');
 var auth = require('./auth.js');
 var people = require('./constants.js');
+var sendmail = require('sendmail')();
+var signiture = 'Dylan Larrabee';
 
 var nowDate = new Date("Februry 10, 2017 11:13:00");
 var tomorowDate = new Date(nowDate.getTime() + 86400000);
@@ -16,6 +18,25 @@ var options = {
   'timeMin': `${today[2]}-${today[1]}-${today[0]}T00:00:00-07:00`
 };
 
+var test1 = [ 
+  [ '12:00 - 1:00', 'Savaughn', 'hir.5@hackreactor.com' ],
+  [ '12:00 - 1:00', 'Susan', 'hir.11@hackreactor.com' ],
+  [ '12:00 - 1:00', 'Autumn', 'hir.12@hackreactor.com' ],
+  [ '1:00 - 2:00', 'Robin', 'hir.2@hackreactor.com' ],
+  [ '1:00 - 2:00', 'Bill', 'hir.1@hackreactor.com' ],
+  [ '2:00 - 3:00', 'Susan', 'hir.11@hackreactor.com' ],
+  [ '3:00 - 4:00', 'Bill', 'hir.1@hackreactor.com' ],
+  [ '4:00 - 5:00', 'Dylan', 'hir.7@hackreactor.com' ],
+  [ '4:00 - 5:00', 'Susan', 'hir.11@hackreactor.com' ],
+  [ '6:00 - 7:00', 'Autumn', 'hir.12@hackreactor.com' ] ];
+
+var test2 = [[ '12:00 - 1:00', 'Savaughn', 'hir.5@hackreactor.com' ]];
+
+var test3 = [];
+
+sendTo('me', test3);
+
+
 // var queryPromises = [];
 // for (var key in people.hirs) {
 //   queryPromises.push(queryCalenderPromise(key));
@@ -23,34 +44,9 @@ var options = {
 
 // Promise.all(queryPromises)
 //   .then(function(data) {
-//     console.log(flatten(data));
+//     console.log(organizeOpenings(flatten(data)));
 //   })
 //   .catch(console.log);
-
-  var test = [ [ '2017-02-10T13:30:00-08:00', 'Bill', 'hir.1@hackreactor.com' ],
-  [ '2017-02-10T15:00:00-08:00', 'Bill', 'hir.1@hackreactor.com' ],
-  [ '2017-02-10T13:00:00-08:00', 'Robin', 'hir.2@hackreactor.com' ],
-  [ '2017-02-10T12:30:00-08:00',
-    'Savaughn',
-    'hir.5@hackreactor.com' ],
-  [ '2017-02-10T16:00:00-08:00', 'Dylan', 'hir.7@hackreactor.com' ],
-  [ '2017-02-10T12:30:00-08:00',
-    'Susan',
-    'hir.11@hackreactor.com' ],
-  [ '2017-02-10T14:30:00-08:00',
-    'Susan',
-    'hir.11@hackreactor.com' ],
-  [ '2017-02-10T16:00:00-08:00',
-    'Susan',
-    'hir.11@hackreactor.com' ],
-  [ '2017-02-10T12:30:00-08:00',
-    'Autumn',
-    'hir.12@hackreactor.com' ],
-  [ '2017-02-10T18:30:00-08:00',
-    'Autumn',
-    'hir.12@hackreactor.com' ] ];
-
-    console.log(organizeOpenings(test));
 
 
 // //////////////////////////////////////////////////////////////
@@ -163,12 +159,47 @@ function organizeOpenings(openings) {
     time = time[0] + ':' + time[2] + ' - ' + (time[0] + 1 > 12 ? 1 : time[0] + 1) + ':' + time[2];
     return [time, item[1], item[2]];
   });
-    
 
   return results;
 }
 
+function sendTo(param, openings) {
 
+  var to;
+  var subject;
+  var message;
+  
+  if (param === 'me' || param === 'stop') {
+    to = 'dylan.larrabee@hackreactor.com';
+  } else if (param === 'team') {
+    to = 'dylan.larrabee@hackreactor.com, sfm.technical.mentors.team@hackreactor.com, sfm.counselors.team@hackreactor.com';
+  } 
+
+  if (openings.length > 0) {
+    subject = 'HiR Free Hours';
+    if (param === 'me' || param === 'team') {
+      message = "Good morning everyone!<br><br>Looks like we've got " + (openings.length) + ' unscheduled interview slot' + (openings.length > 1 ? 's' : '') + ' today.<br>The following time slot' + (openings.length > 1 ? 's ' : ' ') + (openings.length > 1 ? 'are' : 'is') + ' available:<br><br>';
+      for (var i = 0; i < openings.length; i++) {
+        message += openings[i][0] + ': ' + openings[i][1] + '<br>';
+      }
+      message += '<br>Thanks!<br>' + signiture;
+    }
+  } else {
+    subject = 'No Free HiRs';
+    message = 'Good morning everyone,<br>All of our HiRs are all fully booked today.<br><br>Sorry!<br>' + signiture;
+  }
+
+  sendmail({
+    from: 'dylan.larrabee@hackreactor.com',
+    to: to,
+    subject: subject,
+    html: message,
+  }, function(err, reply) {
+    console.log(err && err.stack);
+    console.dir(reply);
+  });
+  
+}
 
 
 
