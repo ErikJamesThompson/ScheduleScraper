@@ -1,5 +1,5 @@
 var gCal = require('google-calendar');
-var sendmail = require('sendmail')();
+
 var auth = require('./auth.js');
 var people = require('./constants.js');
 var refreshTokenPromise = require('./refresh.js').refreshTokenPromise;
@@ -18,27 +18,6 @@ var options = {
   'timeMin': `${today[2]}-${today[1]}-${today[0]}T00:00:00-07:00`
 };
 
-
-
-refreshTokenPromise()
-  .then(function(accesstoken) {
-    calendar = new gCal.GoogleCalendar(accesstoken);
-    
-    var queryPromises = [];
-    for (var key in people.hirs) {
-      queryPromises.push(queryCalenderPromise(key));
-    }
-
-    return Promise.all(queryPromises);
-  })
-  .then(function(data) {
-    helpers.sendTo('me', helpers.organizeOpenings(helpers.flatten(data)));
-  })
-  .catch(console.log);
-
-
-// //////////////////////////////////////////////////////////////
-
 function queryCalenderPromise(hirNumber) {
 
   return new Promise(function(resolve, reject) {
@@ -54,6 +33,31 @@ function queryCalenderPromise(hirNumber) {
   });
 }
 
+
+module.exports = {
+
+  sendReportTo: function(recipiant) {
+
+    refreshTokenPromise()
+      .then(function(accesstoken) {
+        calendar = new gCal.GoogleCalendar(accesstoken);
+        
+        var queryPromises = [];
+        for (var key in people.hirs) {
+          queryPromises.push(queryCalenderPromise(key));
+        }
+
+        return Promise.all(queryPromises);
+      })
+      .then(function(data) {
+        helpers.sendTo(recipiant, helpers.organizeOpenings(helpers.flatten(data)));
+      })
+      .catch(console.log);
+  }
+
+};
+
+module.exports.sendReportTo('me');
 
 
 

@@ -1,5 +1,8 @@
+var sendmail = require('sendmail')();
+var nodemailer = require('nodemailer');
 var people = require('./constants.js');
 var signiture = 'Dylan Larrabee';
+var auth = require('./auth.js');
 
 module.exports = {
 
@@ -114,7 +117,7 @@ module.exports = {
   },
 
   sendTo: function (param, openings) {
-    var to = 'dylan.larrabee@hackreactor.com';
+    var to = ['dylan.larrabee@hackreactor.com'];
     var subject;
     var message;
 
@@ -128,16 +131,18 @@ module.exports = {
     } else {
       subject = 'No Free HiRs Today';
       message = 'Good morning everyone,<br>All of our HiRs are all fully booked today.<br><br>Sorry!<br>' + signiture;
-      message += '<br><br>sfm.technical.mentors.team@hackreactor.com, sfm.counselors.team@hackreactor.com<br>To stop automatic emails, click here';
+    }
+    if (param === 'me') {
+      message += 'THIS PARTS FOR ME<br><br>sfm.technical.mentors.team@hackreactor.com, sfm.counselors.team@hackreactor.com<br>To stop automatic emails, click here';
+    }
+    if (param === 'team') {
+      to = ['dylanlarrabee6@gmail.com', 'dylan.r.larrabee@gmail.com'];
     }
     if (param === 'stop') {
-      to = 'dylan.larrabee@hackreactor.com';
       subject = 'STOPED';
       message = 'you are getting this message because you shut off auto emailing.<br>To resume, click here';
     }
-
     console.log('message', message);
-
     // sendmail({
     //   from: 'dylan.larrabee@hackreactor.com',
     //   to: to,
@@ -147,6 +152,23 @@ module.exports = {
     //   console.log(err && err.stack);
     //   console.dir(reply);
     // });
+    //////////////////////////
+
+    var transporter = nodemailer.createTransport('smtps://' + auth.gmailUsername + ':' + auth.gmailPassword + '@smtp.gmail.com');
+    var mailOptions = {
+      from: '"Dylan Larrabee" <dylan.larrabee@hackreactor.com>',
+      to: to,
+      subject: subject,
+      text: message
+    };
+    transporter.sendMail(mailOptions, function (error, response) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('\nE-mail sent!\n\n');
+        console.log(response);
+      }
+    });
 
   }
 
