@@ -28,7 +28,7 @@ module.exports = {
     "Convincing AI not to turn evil...",
     "Computing the secret to life, the universe, and everything...",
     "Constructing additional pylons...",
-    "Roping some seaturtles...",
+    "Roping a couple of sea turtles...",
     "Dividing by zero...",
     "Spawning the Overlord...",
     "Cracking military-grade encryption...",

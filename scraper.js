@@ -52,6 +52,7 @@ module.exports = {
         var queryPromises = [];
         for (var key in people.hirs) {
           queryPromises.push(queryCalenderPromise(key));
+          console.log(generateFunnies());
         }
 
         return Promise.all(queryPromises);

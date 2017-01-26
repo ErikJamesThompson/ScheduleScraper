@@ -163,7 +163,7 @@ module.exports = {
     var mailOptions;
 
     if (command === 'check') {
-      console.log('----------');
+      console.log('Free Time Slots----------');
       console.log(this.organizeOpenings(this.flatten(openings)));
       console.log('');
       return
