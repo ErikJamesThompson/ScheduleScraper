@@ -26,7 +26,7 @@ for (var key in people.hirs) {
 
 Promise.all(queryPromises)
   .then(function(data) {
-    sendTo('me', organizeOpenings(flatten(data)));
+    sendTo('team', organizeOpenings(flatten(data)));
   })
   .catch(console.log);
 
@@ -175,7 +175,7 @@ function sendTo(param, openings) {
   if (param === 'me' || param === 'stop') {
     to = 'dylan.larrabee@hackreactor.com';
   } else if (param === 'team') {
-    to = 'dylan.larrabee@hackreactor.com, sfm.technical.mentors.team@hackreactor.com, sfm.counselors.team@hackreactor.com';
+    to = 'dylanlarrabee6@gmail.com, dylan.r.larrabee@gmail.com';// 'sfm.technical.mentors.team@hackreactor.com, sfm.counselors.team@hackreactor.com';
   } 
 
   if (openings.length > 0) {
@@ -193,13 +193,13 @@ function sendTo(param, openings) {
   }
 
   if (param === 'me') {
-    message += '<br><br>this part is just for me';
+    message += '<br><br>To send to team, click here<br>To stop automatic emails, click here';
   }
 
   if (param === 'stop') {
     to = 'dylan.larrabee@hackreactor.com';
-    subject = 'STOP';
-    message = 'this is the stop message';
+    subject = 'STOPED';
+    message = 'you are getting this message because you shut off auto emailing.<br>To resume, click here';
   }
 
   sendmail({
@@ -213,7 +213,7 @@ function sendTo(param, openings) {
   });
   
 }
-
+// check to see if email shows up as spam for staff
 // separate the files into a more organized structure
 // run the script locally
 // figure out how to use env variables to store sensitive information
