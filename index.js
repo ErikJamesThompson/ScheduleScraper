@@ -34,7 +34,7 @@ var test2 = [[ '12:00 - 1:00', 'Savaughn', 'hir.5@hackreactor.com' ]];
 
 var test3 = [];
 
-sendTo('me', test3);
+sendTo('stop', test3);
 
 
 // var queryPromises = [];
@@ -187,6 +187,12 @@ function sendTo(param, openings) {
   } else {
     subject = 'No Free HiRs';
     message = 'Good morning everyone,<br>All of our HiRs are all fully booked today.<br><br>Sorry!<br>' + signiture;
+  }
+
+  if (param === 'stop') {
+    to = 'dylan.larrabee@hackreactor.com';
+    subject = 'STOP';
+    message = 'this is the stop message';
   }
 
   sendmail({
