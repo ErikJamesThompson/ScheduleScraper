@@ -200,9 +200,11 @@ function sendTo(param, openings) {
 //create a server with send to all, stop, and start routes
 // instead of a cronjob, maybe a set interval with a flag that you can toggle?
   // run interval every 10 minutes
-    // if the flag is set to on, and the time is in between a set span of 10 minutes, and its not sunday
- // need to make a little test to see if you can change the value of a variable out from under the function in a setInterval
-// make the routes run the appropriate function and redirect back to mail
+    // if the flag is set to on, and the time is in between a set span of 10 minutes, and its not sunday <-+
+ // need to make a little test to see if you can change the value of a variable out from under the function|in a setInterval
+// make the routes run the appropriate function and redirect back to mail                                  |
+//                                                                                                         |
+// it would invoke the function, which refreshes the token, then sends ME the piece of mail   <------------+
 
 
 
