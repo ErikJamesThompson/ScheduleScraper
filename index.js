@@ -1,10 +1,11 @@
 var gCal = require('google-calendar');
+var sendmail = require('sendmail')();
 var auth = require('./auth.js');
 var people = require('./constants.js');
-var sendmail = require('sendmail')();
+
 var signiture = 'Dylan Larrabee';
 
-var nowDate = new Date("January 30, 2017 11:13:00"); // "Februry 10, 2017 11:13:00" "January 26, 2017 11:13:00"
+var nowDate = new Date(); // "Februry 10, 2017 11:13:00" "January 26, 2017 11:13:00" "January 30, 2017 11:13:00"
 var tomorowDate = new Date(nowDate.getTime() + 86400000);
 var today = getDMY(nowDate);
 var tomorow = getDMY(tomorowDate);
