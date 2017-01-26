@@ -4,7 +4,7 @@ var people = require('./constants.js');
 var sendmail = require('sendmail')();
 var signiture = 'Dylan Larrabee';
 
-var nowDate = new Date("Februry 10, 2017 11:13:00");
+var nowDate = new Date(); // "Februry 10, 2017 11:13:00"
 var tomorowDate = new Date(nowDate.getTime() + 86400000);
 var today = getDMY(nowDate);
 var tomorow = getDMY(tomorowDate);
@@ -18,35 +18,35 @@ var options = {
   'timeMin': `${today[2]}-${today[1]}-${today[0]}T00:00:00-07:00`
 };
 
-var test1 = [ 
-  [ '12:00 - 1:00', 'Savaughn', 'hir.5@hackreactor.com' ],
-  [ '12:00 - 1:00', 'Susan', 'hir.11@hackreactor.com' ],
-  [ '12:00 - 1:00', 'Autumn', 'hir.12@hackreactor.com' ],
-  [ '1:00 - 2:00', 'Robin', 'hir.2@hackreactor.com' ],
-  [ '1:00 - 2:00', 'Bill', 'hir.1@hackreactor.com' ],
-  [ '2:00 - 3:00', 'Susan', 'hir.11@hackreactor.com' ],
-  [ '3:00 - 4:00', 'Bill', 'hir.1@hackreactor.com' ],
-  [ '4:00 - 5:00', 'Dylan', 'hir.7@hackreactor.com' ],
-  [ '4:00 - 5:00', 'Susan', 'hir.11@hackreactor.com' ],
-  [ '6:00 - 7:00', 'Autumn', 'hir.12@hackreactor.com' ] ];
+// var test1 = [ 
+//   [ '12:00 - 1:00', 'Savaughn', 'hir.5@hackreactor.com' ],
+//   [ '12:00 - 1:00', 'Susan', 'hir.11@hackreactor.com' ],
+//   [ '12:00 - 1:00', 'Autumn', 'hir.12@hackreactor.com' ],
+//   [ '1:00 - 2:00', 'Robin', 'hir.2@hackreactor.com' ],
+//   [ '1:00 - 2:00', 'Bill', 'hir.1@hackreactor.com' ],
+//   [ '2:00 - 3:00', 'Susan', 'hir.11@hackreactor.com' ],
+//   [ '3:00 - 4:00', 'Bill', 'hir.1@hackreactor.com' ],
+//   [ '4:00 - 5:00', 'Dylan', 'hir.7@hackreactor.com' ],
+//   [ '4:00 - 5:00', 'Susan', 'hir.11@hackreactor.com' ],
+//   [ '6:00 - 7:00', 'Autumn', 'hir.12@hackreactor.com' ] ];
 
-var test2 = [[ '12:00 - 1:00', 'Savaughn', 'hir.5@hackreactor.com' ]];
+// var test2 = [[ '12:00 - 1:00', 'Savaughn', 'hir.5@hackreactor.com' ]];
 
-var test3 = [];
+// var test3 = [];
 
-sendTo('me', test3);
+// sendTo('me', test3);
 
 
-// var queryPromises = [];
-// for (var key in people.hirs) {
-//   queryPromises.push(queryCalenderPromise(key));
-// }
+var queryPromises = [];
+for (var key in people.hirs) {
+  queryPromises.push(queryCalenderPromise(key));
+}
 
-// Promise.all(queryPromises)
-//   .then(function(data) {
-//     console.log(organizeOpenings(flatten(data)));
-//   })
-//   .catch(console.log);
+Promise.all(queryPromises)
+  .then(function(data) {
+    sendTo('me', organizeOpenings(flatten(data)));
+  })
+  .catch(console.log);
 
 
 // //////////////////////////////////////////////////////////////
@@ -211,6 +211,17 @@ function sendTo(param, openings) {
   
 }
 
+// separate the files into a more organized structure
+// run the script locally
+// figure out how to use env variables to store sensitive information
+// create one worker script that renews token and sends email
+// 
+//create a server with send to all, stop, and start routes
+// instead of a cronjob, maybe a set interval with a flag that you can toggle?
+  // run interval every 10 minutes
+    // if the flag is set to on, and the time is in between a set span of 10 minutes, and its not sunday
+ // need to make a little test to see if you can change the value of a variable out from under the function in a setInterval
+// make the routes run the appropriate function and redirect back to mail
 
 
 
