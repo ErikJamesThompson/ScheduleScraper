@@ -16,16 +16,42 @@ var options = {
   'timeMin': `${today[2]}-${today[1]}-${today[0]}T00:00:00-07:00`
 };
 
-var queryPromises = [];
-for (var key in people.hirs) {
-  queryPromises.push(queryCalenderPromise(key));
-}
+// var queryPromises = [];
+// for (var key in people.hirs) {
+//   queryPromises.push(queryCalenderPromise(key));
+// }
 
-Promise.all(queryPromises)
-  .then(function(data) {
-    console.log(organizeOpenings(flatten(data)));
-  })
-  .catch(console.log);
+// Promise.all(queryPromises)
+//   .then(function(data) {
+//     console.log(flatten(data));
+//   })
+//   .catch(console.log);
+
+  var test = [ [ '2017-02-10T13:30:00-08:00', 'Bill', 'hir.1@hackreactor.com' ],
+  [ '2017-02-10T15:00:00-08:00', 'Bill', 'hir.1@hackreactor.com' ],
+  [ '2017-02-10T13:00:00-08:00', 'Robin', 'hir.2@hackreactor.com' ],
+  [ '2017-02-10T12:30:00-08:00',
+    'Savaughn',
+    'hir.5@hackreactor.com' ],
+  [ '2017-02-10T16:00:00-08:00', 'Dylan', 'hir.7@hackreactor.com' ],
+  [ '2017-02-10T12:30:00-08:00',
+    'Susan',
+    'hir.11@hackreactor.com' ],
+  [ '2017-02-10T14:30:00-08:00',
+    'Susan',
+    'hir.11@hackreactor.com' ],
+  [ '2017-02-10T16:00:00-08:00',
+    'Susan',
+    'hir.11@hackreactor.com' ],
+  [ '2017-02-10T12:30:00-08:00',
+    'Autumn',
+    'hir.12@hackreactor.com' ],
+  [ '2017-02-10T18:30:00-08:00',
+    'Autumn',
+    'hir.12@hackreactor.com' ] ];
+
+    console.log(organizeOpenings(test));
+
 
 // //////////////////////////////////////////////////////////////
 
@@ -113,15 +139,32 @@ function flatten(matrix) {
 }
 
 function organizeOpenings(openings) {
-  var results = openings.reduce(function(acc, crr){
-    if (acc[crr[1]] === undefined) {
-      acc[crr[1]] = [crr[2], [crr[0]]];
-      return acc;
+
+  var results = openings.sort(function(a, b) {
+    a = a[0].split('T')[1].split('-')[0].split(':');
+    b = b[0].split('T')[1].split('-')[0].split(':');
+    if (+a[0] > +b[0]) {
+      return 1;
+    } else if (+a[0] < +b[0]) {
+      return -1;
+    } else if (+a[1] > +b[1]) {
+      return 1;
+    } else if (+a[1] < +b[1]) {
+      return -1;
     } else {
-      acc[crr[1]][1].push(crr[0]);
-      return acc;
+      return 0;
     }
-  }, {});
+  }).map(function(item) {
+    var time = item[0].split('T')[1].split('-')[0].split(':');
+    time[0] = +time[0];
+    if (time[0] > 12) {
+      time[0] -= 12;
+    }
+    time = time[0] + ':' + time[2] + ' - ' + (time[0] + 1 > 12 ? 1 : time[0] + 1) + ':' + time[2];
+    return [time, item[1], item[2]];
+  });
+    
+
   return results;
 }
 
