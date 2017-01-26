@@ -10,9 +10,9 @@ To start using the Schedule scraper, clone down the repo and:
 ```
 run "npm install"
 ```
-modify the contents of constants.js to reflect you and the current staff
+* modify the contents of constants.js to reflect you and the current staff
 
-change the name of auth.example.js to auth.js and fill in relevent fields
+* change the name of auth.example.js to auth.js and fill in relevent fields
 ```
 run "npm run help" to get started
 ```
