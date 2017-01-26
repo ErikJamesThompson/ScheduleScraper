@@ -117,30 +117,32 @@ module.exports = {
   },
 
   sendTo: function (param, openings) {
+    openings = this.organizeOpenings(this.flatten(openings));
+
     var to = ['dylan.larrabee@hackreactor.com'];
     var subject;
     var message;
 
     if (openings.length > 0) {
       subject = 'HiR Free Hours Today';
-      message = "Good morning everyone!<br><br>Looks like we've got " + (openings.length) + ' unscheduled interview slot' + (openings.length > 1 ? 's' : '') + ' today.<br>The following time slot' + (openings.length > 1 ? 's ' : ' ') + (openings.length > 1 ? 'are' : 'is') + ' available:<br><br>';
+      message = "Good morning everyone!\n\nLooks like we've got " + (openings.length) + ' unscheduled interview slot' + (openings.length > 1 ? 's' : '') + ' today.\nThe following time slot' + (openings.length > 1 ? 's ' : ' ') + (openings.length > 1 ? 'are' : 'is') + ' available:\n\n';
       for (var i = 0; i < openings.length; i++) {
-        message += openings[i][0] + ': ' + openings[i][1] + '<br>';
+        message += openings[i][0] + ': ' + openings[i][1] + '\n';
       }
-      message += '<br>Feel free to reach out to me or the HiR directly if you have a task they can assist you with :D<br>Thanks!<br>' + signiture;
+      message += '\nFeel free to reach out to me or the HiR directly if you have a task they can assist you with :D\nThanks!\n' + signiture;
     } else {
       subject = 'No Free HiRs Today';
-      message = 'Good morning everyone,<br>All of our HiRs are all fully booked today.<br><br>Sorry!<br>' + signiture;
+      message = 'Good morning everyone,\nAll of our HiRs are all fully booked today.\n\nSorry!\n' + signiture;
     }
     if (param === 'me') {
-      message += 'THIS PARTS FOR ME<br><br>sfm.technical.mentors.team@hackreactor.com, sfm.counselors.team@hackreactor.com<br>To stop automatic emails, click here';
+      // message += 'THIS PARTS FOR ME\n\nsfm.technical.mentors.team@hackreactor.com, sfm.counselors.team@hackreactor.com\nTo stop automatic emails, click here';
     }
     if (param === 'team') {
       to = ['dylanlarrabee6@gmail.com', 'dylan.r.larrabee@gmail.com'];
     }
     if (param === 'stop') {
       subject = 'STOPED';
-      message = 'you are getting this message because you shut off auto emailing.<br>To resume, click here';
+      message = 'you are getting this message because you shut off auto emailing.\nTo resume, click here';
     }
     console.log('message', message);
     // sendmail({

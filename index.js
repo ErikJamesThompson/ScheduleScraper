@@ -50,7 +50,7 @@ module.exports = {
         return Promise.all(queryPromises);
       })
       .then(function(data) {
-        helpers.sendTo(recipiant, helpers.organizeOpenings(helpers.flatten(data)));
+        helpers.sendTo(recipiant, data);
       })
       .catch(console.log);
   }
@@ -61,9 +61,9 @@ module.exports.sendReportTo('me');
 
 
 
-// move first part of organize to end of flatten
-// email shows up as spam, refactor to not use the 'team' param
-// separate the files into a more organized structure
+
+
+
 // make standalone script that you can run from your computer with node mailer (that also renews token)
 
 // run the script locally
