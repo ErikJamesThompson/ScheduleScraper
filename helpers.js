@@ -116,7 +116,7 @@ module.exports = {
     return results;
   },
 
-  sendTo: function (param, openings) {
+  buildEmail: function (param, openings) {
     openings = this.organizeOpenings(this.flatten(openings));
 
     var to = ['dylan.larrabee@hackreactor.com'];
@@ -144,7 +144,12 @@ module.exports = {
       subject = 'STOPED';
       message = 'you are getting this message because you shut off auto emailing.\nTo resume, click here';
     }
-    console.log('message', message);
+    
+    return {to: to, subject: subject, message: message};
+
+  },
+
+  sendTo: function(command, openings) {
     // sendmail({
     //   from: 'dylan.larrabee@hackreactor.com',
     //   to: to,
@@ -155,14 +160,30 @@ module.exports = {
     //   console.dir(reply);
     // });
     //////////////////////////
+    var mailOptions;
+
+    if (command === 'check') {
+      console.log(this.organizeOpenings(this.flatten(openings)));
+      return
+    } else if (command === 'broadcast') {
+      var mail = this.buildEmail('team', openings);
+      mailOptions = {
+        from: '"Dylan Larrabee" <dylan.larrabee@hackreactor.com>',
+        to: mail.to,
+        subject: mail.subject,
+        text: mail.message
+      };
+    } else if (command === 'self') {
+      var mail = this.buildEmail('me', openings);
+      mailOptions = {
+        from: '"Dylan Larrabee" <dylan.larrabee@hackreactor.com>',
+        to: mail.to,
+        subject: mail.subject,
+        text: mail.message
+      };
+    }
 
     var transporter = nodemailer.createTransport('smtps://' + auth.gmailUsername + ':' + auth.gmailPassword + '@smtp.gmail.com');
-    var mailOptions = {
-      from: '"Dylan Larrabee" <dylan.larrabee@hackreactor.com>',
-      to: to,
-      subject: subject,
-      text: message
-    };
     transporter.sendMail(mailOptions, function (error, response) {
       if (error) {
         console.log(error);
@@ -171,7 +192,6 @@ module.exports = {
         console.log(response);
       }
     });
-
   }
 
 };
