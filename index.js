@@ -163,7 +163,7 @@ function sendTo(param, openings) {
       for (var i = 0; i < openings.length; i++) {
         message += openings[i][0] + ': ' + openings[i][1] + '<br>';
       }
-      message += '<br>Thanks!<br>' + signiture;
+      message += '<br>Feel free to reach out to me or the HiR directly if you have a task they can assist you with :D<br>Thanks!<br>' + signiture;
     }
   } else {
     subject = 'No Free HiRs';
@@ -206,6 +206,8 @@ function sendTo(param, openings) {
 //                                                                                                         |
 // it would invoke the function, which refreshes the token, then sends ME the piece of mail   <------------+
 
+// add tests that test all the functions
+// add continuous integration
 
 
 
