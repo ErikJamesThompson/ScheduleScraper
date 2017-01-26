@@ -8,9 +8,8 @@ module.exports = {
     "Bending the spoon...",
     "Filtering morale...",
     "We need a new fuse...",
-    "Have a good day.",
-    "The architects are still drafting",
-    "The bits are breeding",
+    "The architects are still drafting...",
+    "Breeding the bits...",
     "We're building the buildings as fast as we can",
     "...and enjoy the elevator music...",
     "Checking the gravitational constant in your locale...",
@@ -26,7 +25,7 @@ module.exports = {
     "Cleaning off the cobwebs...",
     "Making sure all the i's have dots...",
     "Connecting Neurotoxin Storage Tank...",
-    "Convincing AI not to turn evil..",
+    "Convincing AI not to turn evil...",
     "Computing the secret to life, the universe, and everything...",
     "Constructing additional pylons...",
     "Roping some seaturtles...",
@@ -49,4 +48,4 @@ module.exports = {
     return module.exports.messages[Math.floor(Math.random() * module.exports.messages.length)];
   }
 
-}
+};
