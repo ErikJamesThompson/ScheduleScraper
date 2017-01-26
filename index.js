@@ -18,25 +18,6 @@ var options = {
   'timeMin': `${today[2]}-${today[1]}-${today[0]}T00:00:00-07:00`
 };
 
-// var test1 = [ 
-//   [ '12:00 - 1:00', 'Savaughn', 'hir.5@hackreactor.com' ],
-//   [ '12:00 - 1:00', 'Susan', 'hir.11@hackreactor.com' ],
-//   [ '12:00 - 1:00', 'Autumn', 'hir.12@hackreactor.com' ],
-//   [ '1:00 - 2:00', 'Robin', 'hir.2@hackreactor.com' ],
-//   [ '1:00 - 2:00', 'Bill', 'hir.1@hackreactor.com' ],
-//   [ '2:00 - 3:00', 'Susan', 'hir.11@hackreactor.com' ],
-//   [ '3:00 - 4:00', 'Bill', 'hir.1@hackreactor.com' ],
-//   [ '4:00 - 5:00', 'Dylan', 'hir.7@hackreactor.com' ],
-//   [ '4:00 - 5:00', 'Susan', 'hir.11@hackreactor.com' ],
-//   [ '6:00 - 7:00', 'Autumn', 'hir.12@hackreactor.com' ] ];
-
-// var test2 = [[ '12:00 - 1:00', 'Savaughn', 'hir.5@hackreactor.com' ]];
-
-// var test3 = [];
-
-// sendTo('me', test3);
-
-
 var queryPromises = [];
 for (var key in people.hirs) {
   queryPromises.push(queryCalenderPromise(key));
