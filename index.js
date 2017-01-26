@@ -2,6 +2,7 @@ var gCal = require('google-calendar');
 var sendmail = require('sendmail')();
 var auth = require('./auth.js');
 var people = require('./constants.js');
+var refreshTokenPromise = require('./refresh.js').refreshTokenPromise;
 
 var signiture = 'Dylan Larrabee';
 
@@ -9,8 +10,7 @@ var nowDate = new Date(); // "Februry 10, 2017 11:13:00" "January 26, 2017 11:13
 var tomorowDate = new Date(nowDate.getTime() + 86400000);
 var today = getDMY(nowDate);
 var tomorow = getDMY(tomorowDate);
-
-var calendar = new gCal.GoogleCalendar(auth.googleToken);
+var calendar;
 
 var options = {
   'orderBy': 'startTime', 
@@ -19,14 +19,21 @@ var options = {
   'timeMin': `${today[2]}-${today[1]}-${today[0]}T00:00:00-07:00`
 };
 
-var queryPromises = [];
-for (var key in people.hirs) {
-  queryPromises.push(queryCalenderPromise(key));
-}
 
-Promise.all(queryPromises)
+
+refreshTokenPromise()
+  .then(function(accesstoken) {
+    calendar = new gCal.GoogleCalendar(accesstoken);
+    
+    var queryPromises = [];
+    for (var key in people.hirs) {
+      queryPromises.push(queryCalenderPromise(key));
+    }
+
+    return Promise.all(queryPromises);
+  })
   .then(function(data) {
-    sendTo('team', organizeOpenings(flatten(data)));
+    console.log(organizeOpenings(flatten(data)));
   })
   .catch(console.log);
 
@@ -136,7 +143,6 @@ function organizeOpenings(openings) {
 
   if (openings.length > 1) {
     results = results.sort(function(a, b) {
-       // console.log(a, b)
       a = a[0].split('T')[1].split('-')[0].split(':');
       b = b[0].split('T')[1].split('-')[0].split(':');
       if (+a[0] > +b[0]) {
@@ -193,7 +199,7 @@ function sendTo(param, openings) {
   }
 
   if (param === 'me') {
-    message += '<br><br>To send to team, click here<br>To stop automatic emails, click here';
+    message += '<br><br>sfm.technical.mentors.team@hackreactor.com, sfm.counselors.team@hackreactor.com<br>To stop automatic emails, click here';
   }
 
   if (param === 'stop') {
@@ -202,20 +208,23 @@ function sendTo(param, openings) {
     message = 'you are getting this message because you shut off auto emailing.<br>To resume, click here';
   }
 
-  sendmail({
-    from: 'dylan.larrabee@hackreactor.com',
-    to: to,
-    subject: subject,
-    html: message,
-  }, function(err, reply) {
-    console.log(err && err.stack);
-    console.dir(reply);
-  });
-  
+  console.log('message', message);
+
+  // sendmail({
+  //   from: 'dylan.larrabee@hackreactor.com',
+  //   to: to,
+  //   subject: subject,
+  //   html: message,
+  // }, function(err, reply) {
+  //   console.log(err && err.stack);
+  //   console.dir(reply);
+  // });
+
 }
+// move first part of organize to end of flatten
 // email shows up as spam, refactor to not use the 'team' param
 // separate the files into a more organized structure
-// make standalone script that you can run from your computer with node mailer
+// make standalone script that you can run from your computer with node mailer (that also renews token)
 
 // run the script locally
 // figure out how to use env variables to store sensitive information
