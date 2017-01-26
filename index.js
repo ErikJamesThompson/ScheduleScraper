@@ -4,7 +4,7 @@ var people = require('./constants.js');
 var sendmail = require('sendmail')();
 var signiture = 'Dylan Larrabee';
 
-var nowDate = new Date(); // "Februry 10, 2017 11:13:00"
+var nowDate = new Date("January 30, 2017 11:13:00"); // "Februry 10, 2017 11:13:00" "January 26, 2017 11:13:00"
 var tomorowDate = new Date(nowDate.getTime() + 86400000);
 var today = getDMY(nowDate);
 var tomorow = getDMY(tomorowDate);
@@ -60,13 +60,15 @@ function getDMY(dateObj) {
 function parseCalenderList(data) {
   var slots = [];
   var interviews = [];
-  data.items.forEach(function(event) {
-    if (event.summary === 'Interview Duty') {
-      slots.push(event);
-    } else if (event.summary !== undefined && event.summary.includes('Applicant Interview:')) {
-      interviews.push(event);
-    }
-  });
+  if (data.items) {
+    data.items.forEach(function(event) {
+      if (event.summary === 'Interview Duty') {
+        slots.push(event);
+      } else if (event.summary !== undefined && event.summary.includes('Applicant Interview:')) {
+        interviews.push(event);
+      }
+    });
+  }
   return [slots, interviews];
 }  
 
@@ -116,22 +118,41 @@ function flatten(matrix) {
 }
 
 function organizeOpenings(openings) {
+  var results;
 
-  var results = openings.sort(function(a, b) {
-    a = a[0].split('T')[1].split('-')[0].split(':');
-    b = b[0].split('T')[1].split('-')[0].split(':');
-    if (+a[0] > +b[0]) {
-      return 1;
-    } else if (+a[0] < +b[0]) {
-      return -1;
-    } else if (+a[1] > +b[1]) {
-      return 1;
-    } else if (+a[1] < +b[1]) {
-      return -1;
-    } else {
-      return 0;
+
+  results = openings.filter(function(item) {
+    if (item.length > 0) {
+      return true;
     }
   }).map(function(item) {
+    if (Array.isArray(item[0])) {
+      return item[0];
+    } else {
+      return item;
+    }
+  });
+
+  if (openings.length > 1) {
+    results = results.sort(function(a, b) {
+       // console.log(a, b)
+      a = a[0].split('T')[1].split('-')[0].split(':');
+      b = b[0].split('T')[1].split('-')[0].split(':');
+      if (+a[0] > +b[0]) {
+        return 1;
+      } else if (+a[0] < +b[0]) {
+        return -1;
+      } else if (+a[1] > +b[1]) {
+        return 1;
+      } else if (+a[1] < +b[1]) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  results = results.map(function(item) {
     var time = item[0].split('T')[1].split('-')[0].split(':');
     time[0] = +time[0];
     if (time[0] > 12) {
@@ -157,7 +178,7 @@ function sendTo(param, openings) {
   } 
 
   if (openings.length > 0) {
-    subject = 'HiR Free Hours';
+    subject = 'HiR Free Hours Today';
     if (param === 'me' || param === 'team') {
       message = "Good morning everyone!<br><br>Looks like we've got " + (openings.length) + ' unscheduled interview slot' + (openings.length > 1 ? 's' : '') + ' today.<br>The following time slot' + (openings.length > 1 ? 's ' : ' ') + (openings.length > 1 ? 'are' : 'is') + ' available:<br><br>';
       for (var i = 0; i < openings.length; i++) {
@@ -166,12 +187,12 @@ function sendTo(param, openings) {
       message += '<br>Feel free to reach out to me or the HiR directly if you have a task they can assist you with :D<br>Thanks!<br>' + signiture;
     }
   } else {
-    subject = 'No Free HiRs';
+    subject = 'No Free HiRs Today';
     message = 'Good morning everyone,<br>All of our HiRs are all fully booked today.<br><br>Sorry!<br>' + signiture;
   }
 
   if (param === 'me') {
-    message += '<br><br>this message is just for me';
+    message += '<br><br>this part is just for me';
   }
 
   if (param === 'stop') {
