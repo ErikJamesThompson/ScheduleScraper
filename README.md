@@ -1,12 +1,12 @@
 # ScheduleScraper
 
-This is a script I created to scrape my co-worker's calenders for unbooked interview times.
-The script then parses this information, formats it into an email, and sends it to staff
-The purpose of this app is to increase efficiency within the team and allocate man hours to where they are needed most 
+This is a script I created to scrape my co-workers' calenders for unbooked interview times.
+The script then parses this data, formats it into an email, and sends it to staff.
+The purpose of this app is to increase efficiency within the team and allocate hours to where they are needed most.
 
 ***
 
-To start using the Schedule scraper, clone down the repo and:
+To start using the schedule scraper, clone down the repo and inside the root of the project:
 ```
 run "npm install"
 ```
