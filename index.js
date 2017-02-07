@@ -7,3 +7,4 @@ setInterval(function () {
   scraper.sendReportWithCommand(command);
 }, 600000);
 
+scraper.sendReportWithCommand(command);
