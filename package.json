@@ -8,7 +8,8 @@
     "check": "node index.js check",
     "team": "node index.js broadcast",
     "self": "node index.js self",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "deploy": "git push heroku deploy:master"
   },
   "repository": {
     "type": "git",
