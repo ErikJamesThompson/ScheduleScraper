@@ -2,4 +2,8 @@ var scraper = require('./scraper.js');
 
 var command = process.argv.slice(-1)[0] || '';
 
-scraper.sendReportWithCommand(command);
+
+setInterval(function () {
+  scraper.sendReportWithCommand(command);
+}, 600000);
+
