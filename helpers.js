@@ -1,7 +1,7 @@
 // var sendmail = require('sendmail')();
 var nodemailer = require('nodemailer');
 var people = require('./constants.js');
-var auth = require('./auth.js');
+//var auth = require('./auth.js');
 var signiture = people.signiture;
 
 module.exports = {

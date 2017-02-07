@@ -1,1 +1,1 @@
-web: npm run self
+web: node index.js self

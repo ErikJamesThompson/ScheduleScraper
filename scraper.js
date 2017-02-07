@@ -1,6 +1,6 @@
 var gCal = require('google-calendar');
 var generateFunnies = require('./funnies.js').generateFunnies;
-var auth = require('./auth.js');
+//var auth = require('./auth.js');
 var people = require('./constants.js');
 var refreshTokenPromise = require('./refresh.js').refreshTokenPromise;
 var helpers = require('./helpers.js');
