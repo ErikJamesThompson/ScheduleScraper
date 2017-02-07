@@ -3,9 +3,9 @@ var auth = require('./auth.js');
 var GoogleTokenProvider = require('refresh-token').GoogleTokenProvider;
  
 var tokenProvider = new GoogleTokenProvider({
-  refresh_token: auth.googleRefreshToken,
-  client_id:     auth.client_id, 
-  client_secret: auth.client_secret
+  refresh_token: process.env.REFTOK || auth.googleRefreshToken,
+  client_id:     process.env.CLID || auth.client_id, 
+  client_secret: process.env.CLSEC || auth.client_secret
 });
 
 module.exports = {
