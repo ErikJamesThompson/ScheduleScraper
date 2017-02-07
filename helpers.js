@@ -110,7 +110,7 @@ module.exports = {
         time[0] -= 12;
       }
       time = time[0] + ':' + time[2] + ' - ' + (time[0] + 1 > 12 ? 1 : time[0] + 1) + ':' + time[2];
-      return [time, item[1], item[2]];
+      return [time, item[1], item[2], item[3]];
     });
 
     return results;
@@ -127,9 +127,13 @@ module.exports = {
       subject = 'HiR Free Hours Today';
       message = "Good morning everyone!\n\nLooks like we've got " + (openings.length) + ' unscheduled interview slot' + (openings.length > 1 ? 's' : '') + ' today.\nThe following time slot' + (openings.length > 1 ? 's ' : ' ') + (openings.length > 1 ? 'are' : 'is') + ' available:\n\n';
       for (var i = 0; i < openings.length; i++) {
-        message += openings[i][0] + ': ' + openings[i][1] + '\n';
+        message += openings[i][0] + ': ';
+        message += openings[i][3] ? '***' : '';
+        message += openings[i][1];
+        message += openings[i][3] ? '***' : '';
+        message +=  '\n';
       }
-      message += '\nFeel free to reach out to me or the HiR directly if you have a task they can assist you with :D\nThanks!\n' + signiture;
+      message += '\nHiRs with "***" next to their name are able to do Mock Interviews if you know of any alumnus who need one ASAP\nThanks!\n-' + signiture;
     } else {
       subject = 'No Free HiRs Today';
       message = 'Good morning everyone,\nAll of our HiRs are all fully booked today.\n\nSorry!\n' + signiture;
