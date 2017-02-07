@@ -49,7 +49,7 @@ module.exports = {
 
   extractSlotsData: function (hirNumber, slots) {
     return slots.map(function(slot) {
-      return [slot.start.dateTime, people.hirs[hirNumber][0], people.hirs[hirNumber][1]];
+      return [slot.start.dateTime, people.hirs[hirNumber][0], people.hirs[hirNumber][1], people.hirs[hirNumber][2]];
     });
   }, 
 
