@@ -104,12 +104,14 @@ module.exports = {
     }
 
     results = results.map(function(item) {
+
       var time = item[0].split('T')[1].split('-')[0].split(':');
+      //console.log(time);
       time[0] = +time[0];
       if (time[0] > 12) {
         time[0] -= 12;
       }
-      time = time[0] + ':' + time[2] + ' - ' + (time[0] + 1 > 12 ? 1 : time[0] + 1) + ':' + time[2];
+      time = time[0] + ':' + time[1] + ' - ' + (time[0] + 1 > 12 ? 1 : time[0] + 1) + ':' + time[1];
       return [time, item[1], item[2], item[3]];
     });
 
