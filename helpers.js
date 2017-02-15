@@ -156,16 +156,7 @@ module.exports = {
   },
 
   sendTo: function(command, openings) {
-    // sendmail({
-    //   from: 'dylan.larrabee@hackreactor.com',
-    //   to: to,
-    //   subject: subject,
-    //   html: message,
-    // }, function(err, reply) {
-    //   console.log(err && err.stack);
-    //   console.dir(reply);
-    // });
-    //////////////////////////
+
     var mailOptions;
 
     if (command === 'check') {
