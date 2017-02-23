@@ -4,7 +4,7 @@ module.exports = {
     '2' : ['Robin', 'hir.2@hackreactor.com', true],
     '7' : ['Dylan', 'hir.7@hackreactor.com', true],
     '8' : ['Hans', 'hir.8@hackreactor.com', true],
-
+//The boolean refers to if the HiR is a senior and available to do Mock Interviews
     '4' : ['Zach', 'hir.4@hackreactor.com', false],
     '5' : ['Savaughn', 'hir.5@hackreactor.com', false],
     '6' : ['Ethan', 'hir.6@hackreactor.com', false],
