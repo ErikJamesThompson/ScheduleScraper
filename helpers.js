@@ -8,11 +8,11 @@ module.exports = {
 
   getDMY: function (dateObj) {
     var day = dateObj.getDate();
-    if (day < 10) {day = '0' + day;}
+    if (day < 10) { day = '0' + day; }
     var month = dateObj.getMonth() + 1;
-    if (month < 10) {month = '0' + month;}
+    if (month < 10) { month = '0' + month; }
     var year = dateObj.getFullYear();
-
+    // console.log(day);
     return [day, month, year];
   },
 
@@ -21,7 +21,7 @@ module.exports = {
     var interviews = [];
     if (data.items) {
       data.items.forEach(function(event) {
-        if (event.summary === 'Interview Duty') {
+        if (event.summary === 'Interview Duty') { // || event.summary === 'Add Mock'
           slots.push(event);
         } else if (event.summary !== undefined && event.summary.includes('Applicant Interview:')) {
           interviews.push(event);
@@ -58,14 +58,20 @@ module.exports = {
     var spread = function(array) {
       if (array[0] && !Array.isArray(array[0][0])) {
         array.forEach(function(item) {
-          result.push(item);
+          // console.log('I am item', item);
+          if (Array.isArray(item[0])) {
+            spread(item);
+          } else {
+            result.push(item);
+          }
         });
-        return;
       } else {
+        // console.log('hi I spread');
         array.forEach(function(item) {
           spread(item);
         });
       }
+      return;
     };
     spread(matrix);
     return result;
@@ -106,7 +112,7 @@ module.exports = {
     results = results.map(function(item) {
 
       var time = item[0].split('T')[1].split('-')[0].split(':');
-      //console.log(time);
+      // console.log(time);
       time[0] = +time[0];
       if (time[0] > 12) {
         time[0] -= 12;
@@ -121,19 +127,20 @@ module.exports = {
   buildEmail: function (param, openings) {
     openings = this.organizeOpenings(this.flatten(openings));
 
+
     var to = [people.email];
     var subject;
     var message;
 
     if (openings.length > 0) {
       subject = 'HiR Free Hours Today';
-      message = "Good morning everyone!\n\nLooks like we've got " + (openings.length) + ' unscheduled interview slot' + (openings.length > 1 ? 's' : '') + ' today.\nThe following time slot' + (openings.length > 1 ? 's ' : ' ') + (openings.length > 1 ? 'are' : 'is') + ' available:\n\n';
+      message = 'Good morning everyone!\n\nLooks like we\'ve got ' + (openings.length) + ' unscheduled interview slot' + (openings.length > 1 ? 's' : '') + ' today.\nThe following time slot' + (openings.length > 1 ? 's ' : ' ') + (openings.length > 1 ? 'are' : 'is') + ' available:\n\n';
       for (var i = 0; i < openings.length; i++) {
         message += openings[i][0] + ': ';
         message += openings[i][3] ? '***' : '';
         message += openings[i][1];
         message += openings[i][3] ? '***' : '';
-        message +=  '\n';
+        message += '\n';
       }
       message += '\nHiRs with "***" next to their name are able to do Mock Interviews if you know of any alumnus who need one ASAP\nThanks!\n-' + signiture;
     } else {
