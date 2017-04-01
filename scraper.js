@@ -7,8 +7,11 @@ var helpers = require('./helpers.js');
 
 var nowDate = new Date(); // "Februry 10, 2017 11:13:00" "January 26, 2017 11:13:00" "January 30, 2017 11:13:00"
 var tomorowDate = new Date(nowDate.getTime() + 86400000);
+var twomorrowDate = new Date(nowDate.getTime() + 86400000 * 2);
 var today = helpers.getDMY(nowDate);
 var tomorow = helpers.getDMY(tomorowDate);
+// var today = helpers.getDMY(tomorowDate);
+// var tomorow = helpers.getDMY(twomorrowDate);
 var calendar;
 
 var options = {
@@ -68,14 +71,13 @@ module.exports = {
 };
 
 
-
 // make standalone script that you can run from your computer with node mailer (that also renews token)
 
 // run the script locally
 // figure out how to use env variables to store sensitive information
 // create one worker script that renews token and sends email
 // 
-//create a server with send to all, stop, and start routes
+// create a server with send to all, stop, and start routes
 // instead of a cronjob, maybe a set interval with a flag that you can toggle?
   // run interval every 10 minutes
     // if the flag is set to on, and the time is in between a set span of 10 minutes, and its not sunday <-+
@@ -86,8 +88,5 @@ module.exports = {
 
 // add tests that test all the functions
 // add continuous integration
-
-
-
 
 
