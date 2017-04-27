@@ -10,6 +10,7 @@ var tomorowDate = new Date(nowDate.getTime() + 86400000);
 var twomorrowDate = new Date(nowDate.getTime() + 86400000 * 2);
 var today = helpers.getDMY(nowDate);
 var tomorow = helpers.getDMY(tomorowDate);
+// if you want to look a day ahead
 // var today = helpers.getDMY(tomorowDate);
 // var tomorow = helpers.getDMY(twomorrowDate);
 var calendar;

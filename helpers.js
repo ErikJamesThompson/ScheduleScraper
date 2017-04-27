@@ -134,7 +134,7 @@ module.exports = {
 
     if (openings.length > 0) {
       subject = 'HiR Free Hours Today';
-      message = 'Good morning everyone!\n\nLooks like we\'ve got ' + (openings.length) + ' unscheduled interview slot' + (openings.length > 1 ? 's' : '') + ' today.\nThe following time slot' + (openings.length > 1 ? 's ' : ' ') + (openings.length > 1 ? 'are' : 'is') + ' available:\n\n';
+      message = 'Good morning everyone!\n\nThe following time slot' + (openings.length > 1 ? 's ' : ' ') + (openings.length > 1 ? 'are' : 'is') + ' available:\n\n';
       for (var i = 0; i < openings.length; i++) {
         message += openings[i][0] + ': ';
         message += openings[i][3] ? '***' : '';
@@ -142,7 +142,7 @@ module.exports = {
         message += openings[i][3] ? '***' : '';
         message += '\n';
       }
-      message += '\nHiRs with "***" next to their name are able to do Mock Interviews if you know of any alumnus who need one ASAP\nThanks!\n-' + signiture;
+      message += '\nHiRs with "***" next to their name are able to do Mock Interviews if you know of any alumnus who need one ASAP\n\nReply all to claim!\n\nThanks!\n-' + signiture;
     } else {
       subject = 'No Free HiRs Today';
       message = 'Good morning everyone,\nAll of our HiRs are all fully booked today.\n\nSorry!\n' + signiture;
