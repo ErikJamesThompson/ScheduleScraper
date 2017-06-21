@@ -191,7 +191,8 @@ module.exports = {
       };
     }
 
-    var transporter = nodemailer.createTransport('smtps://' + (process.env.USRNAME || auth.gmailUsername) + ':' + (process.env.PSWRD || auth.gmailPassword) + '@smtp.gmail.com');
+    // var transporter = nodemailer.createTransport('smtps://' + (process.env.USRNAME || auth.gmailUsername) + ':' + (process.env.PSWRD || auth.gmailPassword) + '@smtp.gmail.com');
+    var transporter = nodemailer.createTransport('smtps://' + auth.gmailUsername + ':' + auth.gmailPassword + '@smtp.gmail.com');
     transporter.sendMail(mailOptions, function (error, response) {
       if (error) {
         console.log(error);
