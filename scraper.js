@@ -16,9 +16,9 @@ var tomorow = helpers.getDMY(tomorowDate);
 var calendar;
 
 var options = {
-  'orderBy': 'startTime', 
-  'singleEvents': true, 
-  'timeMax': `${tomorow[2]}-${tomorow[1]}-${tomorow[0]}T00:00:00-07:00`, 
+  'orderBy': 'startTime',
+  'singleEvents': true,
+  'timeMax': `${tomorow[2]}-${tomorow[1]}-${tomorow[0]}T00:00:00-07:00`,
   'timeMin': `${today[2]}-${today[1]}-${today[0]}T00:00:00-07:00`
 };
 
@@ -29,6 +29,7 @@ function queryCalenderPromise(hirNumber) {
       if (err) {
         reject(err);
       }
+      // console.log(calendarList)
       var data = helpers.parseCalenderList(calendarList);
       var freeSlots = helpers.findOpenings(data[0], data[1]);
 
@@ -52,7 +53,7 @@ module.exports = {
       .then(function(accesstoken) {
         console.log(generateFunnies());
         calendar = new gCal.GoogleCalendar(accesstoken);
-        
+
         var queryPromises = [];
         for (var key in people.hirs) {
           queryPromises.push(queryCalenderPromise(key));
@@ -77,7 +78,7 @@ module.exports = {
 // run the script locally
 // figure out how to use env variables to store sensitive information
 // create one worker script that renews token and sends email
-// 
+//
 // create a server with send to all, stop, and start routes
 // instead of a cronjob, maybe a set interval with a flag that you can toggle?
   // run interval every 10 minutes
@@ -89,5 +90,3 @@ module.exports = {
 
 // add tests that test all the functions
 // add continuous integration
-
-

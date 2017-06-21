@@ -21,9 +21,11 @@ module.exports = {
     var interviews = [];
     if (data.items) {
       data.items.forEach(function(event) {
-        if (event.summary === 'Interview Duty') { // || event.summary === 'Add Mock'
+        //had to change from 'Interview Duty' to '#Interview Duty'
+        if (event.summary === '#Interview Duty') { // || event.summary === 'Add Mock'
           slots.push(event);
-        } else if (event.summary !== undefined && event.summary.includes('Applicant Interview:')) {
+          //had to add a check for the new system of assigning interviews
+        } else if (event.summary !== undefined && (event.summary.includes('Applicant Interview:') || event.summary.includes('Interview Online'))) {
           interviews.push(event);
         }
       });
@@ -51,7 +53,7 @@ module.exports = {
     return slots.map(function(slot) {
       return [slot.start.dateTime, people.hirs[hirNumber][0], people.hirs[hirNumber][1], people.hirs[hirNumber][2]];
     });
-  }, 
+  },
 
   flatten: function (matrix) {
     var result = [];
@@ -157,7 +159,7 @@ module.exports = {
       subject = 'STOPED';
       message = 'you are getting this message because you shut off auto emailing.\nTo resume, click here';
     }
-    
+
     return {to: to, subject: subject, message: message};
 
   },
