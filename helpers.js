@@ -22,7 +22,20 @@ module.exports = {
     if (data.items) {
       data.items.forEach(function(event) {
         //had to change from 'Interview Duty' to '#Interview Duty'
-        if (event.summary === '#Interview Duty') { // || event.summary === 'Add Mock'
+
+        //FILLER
+        if (event.summary.includes('Mock Interview')){
+          if (event.attendees.length > 2){
+            console.log('Interviews', event.summary)
+            slots.push(event)
+          } else {
+            console.log('slots', event.summary)
+            interviews.push(event)
+          }
+        }
+        //FILLER
+
+        if (event.summary === '#Interview Duty') { // || event.summary === 'Add Mock'Need to figure out better filter method
           slots.push(event);
           //had to add a check for the new system of assigning interviews
         } else if (event.summary !== undefined && (event.summary.includes('Applicant Interview:') || event.summary.includes('Interview Online'))) {
