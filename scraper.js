@@ -29,7 +29,6 @@ function queryCalenderPromise(hirNumber) {
       if (err) {
         reject(err);
       }
-      // console.log(calendarList)
       var data = helpers.parseCalenderList(calendarList);
       var freeSlots = helpers.findOpenings(data[0], data[1]);
 
