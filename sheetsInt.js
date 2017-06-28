@@ -3,6 +3,7 @@ var auth = require('./auth.js');
 var people = require('./constants.js');
 var gSheet = require('google-spreadsheet')
 
-module.exports = {
-  var doc = new gSheet(auth.googleSpreadsheetKey)
+function initializeSheetWrite(command) {
+  var sheet = new gSheet(auth.googleSpreadsheetKey)
+
 }
