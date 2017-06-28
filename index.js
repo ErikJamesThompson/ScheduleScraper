@@ -1,9 +1,10 @@
 var scraper = require('./scraper.js');
+var sheets = require('./sheetsInt.js')
 
 var command = process.argv.slice(2)[0] || '';
 
-
-scraper.sendReportWithCommand(command);
-
-//if command === writeToSheet
-  //write it
+if (command === 'sheets'){
+  sheets.initializeSheetWrite()
+} else {
+  scraper.sendReportWithCommand(command);
+}

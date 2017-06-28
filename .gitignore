@@ -3,3 +3,4 @@ auth.js
 test.js
 credentials.js
 .vscode
+google-generated-creds.json
