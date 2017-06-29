@@ -6,7 +6,7 @@ var googleGC = require('./google-generated-creds.json')
 
 
 module.exports = {
-  initializeSheetWrite(command) {
+  initializeSheetWrite(data) {
     var sheet = new GoogleSpreadsheet(auth.googleSpreadsheetKey)
     console.log(sheet)
     sheet.useServiceAccountAuth(auth.creds, (error, success) => {
