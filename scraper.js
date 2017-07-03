@@ -65,7 +65,9 @@ module.exports = {
         console.log(generateFunnies());
         console.log('');
         helpers.sendTo(command, data);
-        return callback(null, data)
+        if (callback) {
+          return callback(null, data)
+        }
       })
       .catch(console.log);
   }
