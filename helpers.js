@@ -147,14 +147,18 @@ module.exports = {
       } else {
         el[4] = 'PM'
       }
-      let obj = {
-        time: el[0],
-        name: el[1],
-        email: el[2],
-        mock: el[3],
-        meridiem : el[4]
-      }
-      arrayDateObjs.push(obj)
+      el[5] = 'No'
+      let temp = el[1]
+      el[1] = el[4]
+      el[4] = temp
+      temp = el[2]
+      el[2] = el[4]
+      el[4] = temp
+      temp = el[4]
+      el[4] = el[3]
+      el[3] = temp
+      el[6] = 'N/A'
+      arrayDateObjs.push(el)
     })
     return arrayDateObjs
   },

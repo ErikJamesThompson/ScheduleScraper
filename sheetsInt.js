@@ -5,13 +5,9 @@ var GoogleSpreadsheet = require('google-spreadsheet')
 var googleGC = require('./google-generated-creds.json')
 var doc = new GoogleSpreadsheet(auth.googleSpreadsheetKey)
 var helpers = require('./helpers')
-var async = require('async')
-let sheet;
+let sheet
 
 module.exports = {
-  // async.series([
-  // ])
-
   createServiceAuth() {
     doc.useServiceAccountAuth(auth.creds, (error, success) => {
       if(error) throw error
@@ -29,7 +25,28 @@ module.exports = {
     })
   },
   deletePreviousCells() {
-    sheet.getRows()
+    sheet.getRows({limit: 30, offset: 1}, (err,rows) => {
+      console.log(rows)
+      if(rows.length > 0){
+        rows.forEach((row) => {
+          row.del((err, success) => {
+            if(err) throw err
+            module.exports.deletePreviousCells()
+          })
+        })
+      } else {
+        console.log('There aren\' any rows!')
+      }
+    })
+  },
+  writeToSheet(data){
+    let arrayDateObjs = helpers.formatDataForSheet(data)
+    sheet.getCells({'min-row': 2, 'max-row' : (arrayDateObjs.length + 1),'min-col' : 1, 'max-col': 7, 'return-empty' : true}, (err, cells) => {
+      for(let i = 0; i < (arrayDateObjs.length * 7); i++){
+        cells[i].value = arrayDateObjs[cells[i].row - 2][cells[i].col - 1]
+      }
+      sheet.bulkUpdateCells(cells)
+    })
   },
 
 
@@ -43,25 +60,39 @@ module.exports = {
           else {
             sheet = info.worksheets[0]
           }
-          console.log(sheet)
           let arrayDateObjs = helpers.formatDataForSheet(data)
           // console.log(arrayDateObjs)
-          sheet.getRows({limit: 50}, (err,rows) => {
-            console.log(rows)
-            rows.forEach((row) => {
-              row.del((err, success) => {
-                if(err) throw err
-              })
-            })
-          })
-          // arrayDateObjs.forEach(el => {
-          //   sheet.addRow(el, (err,row) => {
-          //     if(err){
-          //       throw err
-          //       // console.log(row)
-          //     }
-          //   })
+
+          // sheet.getRows({limit: 20, offset: 1}, (err,rows) => {
+          //   console.log(rows)
+          //   if(rows.length > 0){
+          //     rows.forEach((row) => {
+          //       row.del((err, success) => {
+          //         if(err) throw err
+          //         module.exports.deletePreviousCells()
+          //       })
+          //     })
+          //   } else {
+          //     console.log('There aren\' any rows!')
+          //   }
           // })
+
+          // arrayDateObjs.forEach(el => {
+            // sheet.addRow(el, (err,row) => {
+            //   if(err){
+            //     throw err
+            //     // console.log(row)
+            //   }
+            // })
+            // })
+
+            // sheet.getCells({'min-row': 2, 'max-row' : (arrayDateObjs.length + 1),'min-col' : 1, 'max-col': 7, 'return-empty' : true}, (err, cells) => {
+            //   for(let i = 0; i < (arrayDateObjs.length * 7); i++){
+            //     cells[i].value = arrayDateObjs[cells[i].row - 2][cells[i].col - 1]
+            //   }
+            //   sheet.bulkUpdateCells(cells)
+            // })
+            
         })
       }
     })
