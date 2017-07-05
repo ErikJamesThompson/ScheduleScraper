@@ -139,6 +139,30 @@ module.exports = {
     return results;
   },
 
+  formatDataForSheet: function (data) {
+    let arrayDateObjs = []
+    data.forEach((el) => {
+      if(parseInt(el[0]) >= 8){
+        el[4] = 'AM'
+      } else {
+        el[4] = 'PM'
+      }
+      el[5] = 'No'
+      let temp = el[1]
+      el[1] = el[4]
+      el[4] = temp
+      temp = el[2]
+      el[2] = el[4]
+      el[4] = temp
+      temp = el[4]
+      el[4] = el[3]
+      el[3] = temp
+      el[6] = 'N/A'
+      arrayDateObjs.push(el)
+    })
+    return arrayDateObjs
+  },
+
   buildEmail: function (param, openings) {
     openings = this.organizeOpenings(this.flatten(openings));
 

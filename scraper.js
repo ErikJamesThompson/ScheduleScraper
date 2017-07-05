@@ -40,7 +40,7 @@ function queryCalenderPromise(hirNumber) {
 
 module.exports = {
 
-  sendReportWithCommand: function(command) {
+  sendReportWithCommand: function(command, callback) {
 
     if (command !== 'self' && command !== 'broadcast' && command !== 'check') {
       console.log('Do you need some help?\n  "npm run check" --find availiable openings for today\n  "npm run team"  --send an email detailing the available slots to THE STAFF\n  "npm run self"  --send an email detailing the available slots to YOURSELF\n  "npm run help"  --display the available commands\n');
@@ -65,6 +65,9 @@ module.exports = {
         console.log(generateFunnies());
         console.log('');
         helpers.sendTo(command, data);
+        if (callback) {
+          return callback(null, data)
+        }
       })
       .catch(console.log);
   }
