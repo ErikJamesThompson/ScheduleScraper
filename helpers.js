@@ -157,7 +157,8 @@ module.exports = {
       temp = el[4]
       el[4] = el[3]
       el[3] = temp
-      el[6] = 'N/A'
+      el[7] = 'N/A'
+      el[6] = ''
       arrayDateObjs.push(el)
     })
     return arrayDateObjs
