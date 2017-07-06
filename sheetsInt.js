@@ -41,17 +41,38 @@ module.exports = {
   },
   writeToSheet(data){
     let arrayDateObjs = helpers.formatDataForSheet(data)
-    sheet.getCells({'min-row': 2, 'max-row' : (arrayDateObjs.length + 1),'min-col' : 1, 'max-col': 7, 'return-empty' : true}, (err, cells) => {
-      for(let i = 0; i < (arrayDateObjs.length * 7); i++){
-        cells[i].value = arrayDateObjs[cells[i].row - 2][cells[i].col - 1]
+    sheet.getCells({'min-row': 2, 'max-row' : (arrayDateObjs.length + 1),'min-col' : 1, 'max-col': 8, 'return-empty' : true}, (err, cells) => {
+      for(let i = 0; i < (arrayDateObjs.length * 8); i++){
+        if(arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === true || arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === false){
+          arrayDateObjs[cells[i].row - 2][cells[i].col - 1] = JSON.stringify(arrayDateObjs[cells[i].row - 2][cells[i].col - 1])
+        }
+        if(arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === 'No'){
+            cells[i].value = `=IF(H${cells[i].row} = "N/A","No","Yes" )`
+        } else {
+          cells[i].value = arrayDateObjs[cells[i].row - 2][cells[i].col - 1]
+        }
       }
       sheet.bulkUpdateCells(cells)
     })
   },
+  writeToHistory(data){
 
+    // sheet.getCells({'min-row': 2, 'max-row' : (arrayDateObjs.length + 1),'min-col' : 1, 'max-col': 8, 'return-empty' : true}, (err, cells) => {
+    //   for(let i = 0; i < (arrayDateObjs.length * 8); i++){
+    //     if(arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === true || arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === false){
+    //       arrayDateObjs[cells[i].row - 2][cells[i].col - 1] = JSON.stringify(arrayDateObjs[cells[i].row - 2][cells[i].col - 1])
+    //     }
+    //     if(arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === 'No'){
+    //         cells[i].value = `=IF(H${cells[i].row} = "N/A","No","Yes" )`
+    //     } else {
+    //       cells[i].value = arrayDateObjs[cells[i].row - 2][cells[i].col - 1]
+    //     }
+    //   }
+    //   sheet.bulkUpdateCells(cells)
+    // })
+  },
 
   initializeSheetWrite(data) {
-    // console.log('data 11, sheetsInt', data)
     doc.useServiceAccountAuth(auth.creds, (error, success) => {
       if(error) throw error
       else {
@@ -86,18 +107,16 @@ module.exports = {
             // })
             // })
             sheet.getCells({'min-row': 2, 'max-row' : (arrayDateObjs.length + 1),'min-col' : 1, 'max-col': 8, 'return-empty' : true}, (err, cells) => {
-              console.log(cells[5])
-              for(let i = 0; i < (arrayDateObjs.length * 8); i++){
+              for(let i = 0; i < ((arrayDateObjs.length - 1) * 8); i++){
                 if(arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === true || arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === false){
                   arrayDateObjs[cells[i].row - 2][cells[i].col - 1] = JSON.stringify(arrayDateObjs[cells[i].row - 2][cells[i].col - 1])
                 }
                 if(arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === 'No'){
-                    cells[i].value = `=IF(H${cells[i].row} = "N/A","No","Yes" )`
+                    cells[i].value = `=IF(OR(TRIM(H${cells[i].row}) = "N/A", TRIM(H${cells[i].row}) = ""),"No","Yes" )`
                 } else {
                   cells[i].value = arrayDateObjs[cells[i].row - 2][cells[i].col - 1]
                 }
               }
-              console.log(cells[5])
               sheet.bulkUpdateCells(cells)
             })
         })

@@ -156,6 +156,11 @@ module.exports = {
       el[4] = temp
       temp = el[4]
       el[4] = el[3]
+      if(el[4]){
+        el[4] = 'Available'
+      } else {
+        el[4] = 'Unavailable'
+      }
       el[3] = temp
       el[7] = 'N/A'
       el[6] = ''
