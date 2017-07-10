@@ -107,7 +107,7 @@ module.exports = {
             // })
             // })
             sheet.getCells({'min-row': 2, 'max-row' : (arrayDateObjs.length + 1),'min-col' : 1, 'max-col': 8, 'return-empty' : true}, (err, cells) => {
-              for(let i = 0; i < ((arrayDateObjs.length - 1) * 8); i++){
+              for(let i = 0; i < ((arrayDateObjs.length) * 8); i++){
                 if(arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === true || arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === false){
                   arrayDateObjs[cells[i].row - 2][cells[i].col - 1] = JSON.stringify(arrayDateObjs[cells[i].row - 2][cells[i].col - 1])
                 }
