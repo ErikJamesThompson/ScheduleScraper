@@ -41,15 +41,15 @@ module.exports = {
   },
   writeToSheet(data){
     let arrayDateObjs = helpers.formatDataForSheet(data)
-    sheet.getCells({'min-row': 2, 'max-row' : (arrayDateObjs.length + 1),'min-col' : 1, 'max-col': 8, 'return-empty' : true}, (err, cells) => {
-      for(let i = 0; i < (arrayDateObjs.length * 8); i++){
-        if(arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === true || arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === false){
-          arrayDateObjs[cells[i].row - 2][cells[i].col - 1] = JSON.stringify(arrayDateObjs[cells[i].row - 2][cells[i].col - 1])
+    sheet.getCells({'min-row': 4, 'max-row' : (arrayDateObjs.length + 3),'min-col' : 1, 'max-col': 10, 'return-empty' : true}, (err, cells) => {
+      for(let i = 0; i < ((arrayDateObjs.length) * 10); i++){
+        if(arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === true || arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === false){
+          arrayDateObjs[cells[i].row - 4][cells[i].col - 1] = JSON.stringify(arrayDateObjs[cells[i].row - 4][cells[i].col - 1])
         }
-        if(arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === 'No'){
-            cells[i].value = `=IF(H${cells[i].row} = "N/A","No","Yes" )`
+        if(arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === 'No'){
+            cells[i].value = `=IF(OR(TRIM(G${cells[i].row}) = "", TRIM(H${cells[i].row}) = ""),"No","Yes" )`
         } else {
-          cells[i].value = arrayDateObjs[cells[i].row - 2][cells[i].col - 1]
+          cells[i].value = arrayDateObjs[cells[i].row - 4][cells[i].col - 1]
         }
       }
       sheet.bulkUpdateCells(cells)
@@ -106,15 +106,15 @@ module.exports = {
             //   }
             // })
             // })
-            sheet.getCells({'min-row': 2, 'max-row' : (arrayDateObjs.length + 1),'min-col' : 1, 'max-col': 8, 'return-empty' : true}, (err, cells) => {
-              for(let i = 0; i < ((arrayDateObjs.length) * 8); i++){
-                if(arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === true || arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === false){
-                  arrayDateObjs[cells[i].row - 2][cells[i].col - 1] = JSON.stringify(arrayDateObjs[cells[i].row - 2][cells[i].col - 1])
+            sheet.getCells({'min-row': 4, 'max-row' : (arrayDateObjs.length + 3),'min-col' : 1, 'max-col': 10, 'return-empty' : true}, (err, cells) => {
+              for(let i = 0; i < ((arrayDateObjs.length) * 10); i++){
+                if(arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === true || arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === false){
+                  arrayDateObjs[cells[i].row - 4][cells[i].col - 1] = JSON.stringify(arrayDateObjs[cells[i].row - 4][cells[i].col - 1])
                 }
-                if(arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === 'No'){
-                    cells[i].value = `=IF(OR(TRIM(H${cells[i].row}) = "N/A", TRIM(H${cells[i].row}) = ""),"No","Yes" )`
+                if(arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === 'No'){
+                    cells[i].value = `=IF(OR(TRIM(G${cells[i].row}) = "", TRIM(H${cells[i].row}) = ""),"No","Yes" )`
                 } else {
-                  cells[i].value = arrayDateObjs[cells[i].row - 2][cells[i].col - 1]
+                  cells[i].value = arrayDateObjs[cells[i].row - 4][cells[i].col - 1]
                 }
               }
               sheet.bulkUpdateCells(cells)

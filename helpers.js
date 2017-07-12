@@ -141,29 +141,15 @@ module.exports = {
 
   formatDataForSheet: function (data) {
     let arrayDateObjs = []
+    let d = new Date()
+    let n = d.toLocaleDateString()
     data.forEach((el) => {
       if(parseInt(el[0]) >= 8){
         el[4] = 'AM'
       } else {
         el[4] = 'PM'
       }
-      el[5] = 'No'
-      let temp = el[1]
-      el[1] = el[4]
-      el[4] = temp
-      temp = el[2]
-      el[2] = el[4]
-      el[4] = temp
-      temp = el[4]
-      el[4] = el[3]
-      if(el[4]){
-        el[4] = 'Available'
-      } else {
-        el[4] = 'Unavailable'
-      }
-      el[3] = temp
-      el[7] = 'N/A'
-      el[6] = ''
+      el = [n, el[0], el[4], el[1], el[2], 'No', '','','','Not Sent']
       arrayDateObjs.push(el)
     })
     return arrayDateObjs
