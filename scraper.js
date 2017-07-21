@@ -8,11 +8,11 @@ var helpers = require('./helpers.js');
 var nowDate = new Date(); // "Februry 10, 2017 11:13:00" "January 26, 2017 11:13:00" "January 30, 2017 11:13:00"
 var tomorowDate = new Date(nowDate.getTime() + 86400000);
 var twomorrowDate = new Date(nowDate.getTime() + 86400000 * 2);
-var today = helpers.getDMY(nowDate);
-var tomorow = helpers.getDMY(tomorowDate);
+// var today = helpers.getDMY(nowDate);
+// var tomorow = helpers.getDMY(tomorowDate);
 // if you want to look a day ahead
-// var today = helpers.getDMY(tomorowDate);
-// var tomorow = helpers.getDMY(twomorrowDate);
+var today = helpers.getDMY(tomorowDate);
+var tomorow = helpers.getDMY(twomorrowDate);
 var calendar;
 
 var options = {
@@ -92,3 +92,4 @@ module.exports = {
 
 // add tests that test all the functions
 // add continuous integration
+//

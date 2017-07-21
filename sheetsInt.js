@@ -57,19 +57,7 @@ module.exports = {
   },
   writeToHistory(data){
 
-    // sheet.getCells({'min-row': 2, 'max-row' : (arrayDateObjs.length + 1),'min-col' : 1, 'max-col': 8, 'return-empty' : true}, (err, cells) => {
-    //   for(let i = 0; i < (arrayDateObjs.length * 8); i++){
-    //     if(arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === true || arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === false){
-    //       arrayDateObjs[cells[i].row - 2][cells[i].col - 1] = JSON.stringify(arrayDateObjs[cells[i].row - 2][cells[i].col - 1])
-    //     }
-    //     if(arrayDateObjs[cells[i].row - 2][cells[i].col - 1] === 'No'){
-    //         cells[i].value = `=IF(H${cells[i].row} = "N/A","No","Yes" )`
-    //     } else {
-    //       cells[i].value = arrayDateObjs[cells[i].row - 2][cells[i].col - 1]
-    //     }
-    //   }
-    //   sheet.bulkUpdateCells(cells)
-    // })
+
   },
 
   initializeSheetWrite(data) {
@@ -77,6 +65,7 @@ module.exports = {
       if(error) throw error
       else {
         doc.getInfo(function(error, info) {
+          console.log('here2')
           if(error) throw error
           else {
             sheet = info.worksheets[0]
@@ -84,7 +73,7 @@ module.exports = {
           let arrayDateObjs = helpers.formatDataForSheet(data)
           // console.log(arrayDateObjs)
 
-          // sheet.getRows({limit: 20, offset: 1}, (err,rows) => {
+          // sheet.getCells({min: 30, offset: 1}, (err,rows) => {
           //   console.log(rows)
           //   if(rows.length > 0){
           //     rows.forEach((row) => {
