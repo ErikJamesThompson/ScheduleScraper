@@ -2,7 +2,7 @@ var auth = require('./auth.js');
 // var signiture = people.signiture;
 var people = require('./constants.js');
 var GoogleSpreadsheet = require('google-spreadsheet')
-var googleGC = require('./google-generated-creds.json')
+// var googleGC = require('./google-generated-creds.json')
 var doc = new GoogleSpreadsheet(auth.googleSpreadsheetKey)
 var helpers = require('./helpers')
 let sheet
@@ -25,6 +25,8 @@ module.exports = {
     })
   },
   deletePreviousCells() {
+
+    //going to do a bulk update to a blank value ('')
     sheet.getRows({limit: 30, offset: 1}, (err,rows) => {
       console.log(rows)
       if(rows.length > 0){
@@ -41,21 +43,31 @@ module.exports = {
   },
   writeToSheet(data){
     let arrayDateObjs = helpers.formatDataForSheet(data)
-    sheet.getCells({'min-row': 2, 'max-row' : (arrayDateObjs.length + 1),'min-col' : 1, 'max-col': 7, 'return-empty' : true}, (err, cells) => {
-      for(let i = 0; i < (arrayDateObjs.length * 7); i++){
-        cells[i].value = arrayDateObjs[cells[i].row - 2][cells[i].col - 1]
+    sheet.getCells({'min-row': 4, 'max-row' : (arrayDateObjs.length + 3),'min-col' : 1, 'max-col': 10, 'return-empty' : true}, (err, cells) => {
+      for(let i = 0; i < ((arrayDateObjs.length) * 10); i++){
+        if(arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === true || arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === false){
+          arrayDateObjs[cells[i].row - 4][cells[i].col - 1] = JSON.stringify(arrayDateObjs[cells[i].row - 4][cells[i].col - 1])
+        }
+        if(arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === 'No'){
+            cells[i].value = `=IF(OR(TRIM(G${cells[i].row}) = "", TRIM(H${cells[i].row}) = ""),"No","Yes" )`
+        } else {
+          cells[i].value = arrayDateObjs[cells[i].row - 4][cells[i].col - 1]
+        }
       }
       sheet.bulkUpdateCells(cells)
     })
   },
+  writeToHistory(data){
 
+
+  },
 
   initializeSheetWrite(data) {
-    // console.log('data 11, sheetsInt', data)
     doc.useServiceAccountAuth(auth.creds, (error, success) => {
       if(error) throw error
       else {
         doc.getInfo(function(error, info) {
+          console.log('here2')
           if(error) throw error
           else {
             sheet = info.worksheets[0]
@@ -63,7 +75,7 @@ module.exports = {
           let arrayDateObjs = helpers.formatDataForSheet(data)
           // console.log(arrayDateObjs)
 
-          // sheet.getRows({limit: 20, offset: 1}, (err,rows) => {
+          // sheet.getCells({min: 30, offset: 1}, (err,rows) => {
           //   console.log(rows)
           //   if(rows.length > 0){
           //     rows.forEach((row) => {
@@ -85,14 +97,19 @@ module.exports = {
             //   }
             // })
             // })
-
-            // sheet.getCells({'min-row': 2, 'max-row' : (arrayDateObjs.length + 1),'min-col' : 1, 'max-col': 7, 'return-empty' : true}, (err, cells) => {
-            //   for(let i = 0; i < (arrayDateObjs.length * 7); i++){
-            //     cells[i].value = arrayDateObjs[cells[i].row - 2][cells[i].col - 1]
-            //   }
-            //   sheet.bulkUpdateCells(cells)
-            // })
-            
+            sheet.getCells({'min-row': 4, 'max-row' : (arrayDateObjs.length + 3),'min-col' : 1, 'max-col': 10, 'return-empty' : true}, (err, cells) => {
+              for(let i = 0; i < ((arrayDateObjs.length) * 10); i++){
+                if(arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === true || arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === false){
+                  arrayDateObjs[cells[i].row - 4][cells[i].col - 1] = JSON.stringify(arrayDateObjs[cells[i].row - 4][cells[i].col - 1])
+                }
+                if(arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === 'No'){
+                    cells[i].value = `=IF(OR(TRIM(G${cells[i].row}) = "", TRIM(H${cells[i].row}) = ""),"No","Yes" )`
+                } else {
+                  cells[i].value = arrayDateObjs[cells[i].row - 4][cells[i].col - 1]
+                }
+              }
+              sheet.bulkUpdateCells(cells)
+            })
         })
       }
     })

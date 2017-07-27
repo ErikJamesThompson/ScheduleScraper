@@ -47,7 +47,7 @@ module.exports = {
       return;
     }
 
-    console.log(generateFunnies());
+    // console.log(generateFunnies());
     refreshTokenPromise()
       .then(function(accesstoken) {
         console.log(generateFunnies());
@@ -62,7 +62,7 @@ module.exports = {
         return Promise.all(queryPromises);
       })
       .then(function(data) {
-        console.log(generateFunnies());
+        // console.log(generateFunnies());
         console.log('');
         helpers.sendTo(command, data);
         if (callback) {
@@ -92,3 +92,4 @@ module.exports = {
 
 // add tests that test all the functions
 // add continuous integration
+//
