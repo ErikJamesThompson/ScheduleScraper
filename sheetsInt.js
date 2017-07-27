@@ -25,6 +25,8 @@ module.exports = {
     })
   },
   deletePreviousCells() {
+
+    //going to do a bulk update to a blank value ('')
     sheet.getRows({limit: 30, offset: 1}, (err,rows) => {
       console.log(rows)
       if(rows.length > 0){
