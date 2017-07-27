@@ -1,7 +1,7 @@
 # ScheduleScraper
 
 This is a script I created to scrape my co-workers' calenders for unbooked interview times.
-The script then parses this data, formats it into an email, and sends it to staff.
+The script then parses this data, formats it into an email or writes to a shared spreadsheet.
 The purpose of this app is to increase efficiency within the team and allocate hours to where they are needed most.
 
 ***
