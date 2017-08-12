@@ -108,6 +108,7 @@ module.exports = {
                   cells[i].value = arrayDateObjs[cells[i].row - 4][cells[i].col - 1]
                 }
               }
+              console.log(cells)
               sheet.bulkUpdateCells(cells)
             })
         })
