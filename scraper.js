@@ -43,7 +43,7 @@ module.exports = {
   sendReportWithCommand: function(command, callback) {
 
     if (command !== 'self' && command !== 'broadcast' && command !== 'check') {
-      console.log('Do you need some help?\n  "npm run check" --find availiable openings for today\n  "npm run team"  --send an email detailing the available slots to THE STAFF\n  "npm run self"  --send an email detailing the available slots to YOURSELF\n  "npm run help"  --display the available commands\n');
+      console.log('Do you need some help?\n  "npm run check" --find availiable openings for today\n  "npm run team"  --send an email detailing the available slots to THE STAFF\n  "npm run self"  --send an email detailing the available slots to YOURSELF\n   "npm run sheets"  --write all calendar values to currently used sheet\n "npm run help"  --display the available commands\n');
       return;
     }
 

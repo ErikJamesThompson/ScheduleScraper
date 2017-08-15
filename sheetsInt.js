@@ -32,10 +32,25 @@ module.exports = {
     })
   },
 
+  //V3 addition of a data management sheet to contain previous values
+  //will auto write to the second sheet in the set of sheets
+  writeToHistory(data){
+    var secondSheet = sheets[1]
+    var arrayCells
+    sheet.getCells({'min-row': 4, 'max-row' : (data.length + 3),'min-col' : 1,
+    'max-col': 10, 'return-empty' : true}, (err, cells) => {
+      for(let i = 0; i < ((data.length) * 10); i++){
+        arrayCells = cells[i]
+      }
+      secondSheet.bulkUpdateCells(arrayCells)
+    })
+  },
+
   //updating the cells currently used to a blank value
   //preparation for writing the new values
   deletePreviousCells(data) {
-    sheet.getCells({'min-row': 4, 'max-row' : (data.length + 3),'min-col' : 1, 'max-col': 10, 'return-empty' : true}, (err, cells) => {
+    sheet.getCells({'min-row': 4, 'max-row' : (data.length + 3),'min-col' : 1,
+    'max-col': 10, 'return-empty' : true}, (err, cells) => {
       for(let i = 0; i < ((data.length) * 10); i++){
         //going to do a bulk update to a blank value ('')
         cells[i].value = ''
@@ -47,21 +62,25 @@ module.exports = {
   //actually write the data recieved to the sheet
   writeToSheet(data){
     let arrayDateObjs = helpers.formatDataForSheet(data)
-    sheet.getCells({'min-row': 4, 'max-row' : (arrayDateObjs.length + 3),'min-col' : 1, 'max-col': 10, 'return-empty' : true}, (err, cells) => {
+    sheet.getCells({'min-row': 4, 'max-row' : (arrayDateObjs.length + 3),
+    'min-col' : 1, 'max-col': 10, 'return-empty' : true}, (err, cells) => {
       for(let i = 0; i < ((arrayDateObjs.length) * 10); i++){
 
         // handle the boolean values so they don't screw up on the sheet
-        if(arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === true || arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === false){
-          arrayDateObjs[cells[i].row - 4][cells[i].col - 1] = JSON.stringify(arrayDateObjs[cells[i].row - 4][cells[i].col - 1])
+        if(arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === true ||
+          arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === false){
+
+          arrayDateObjs[cells[i].row - 4][cells[i].col - 1] =
+          JSON.stringify(arrayDateObjs[cells[i].row - 4][cells[i].col - 1])
         }
 
         // use a custom function to dynamically write if the calendars contain
           //certain values
           //e.g. if the employees can conduct mock interviews
         if(arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === 'No'){
-            cells[i].value = `=IF(OR(TRIM(G${cells[i].row}) = "", TRIM(H${cells[i].row}) = ""),"No","Yes" )`
+            cells[i].value = `=IF(OR(TRIM(G${cells[i].row}) = "",
+            TRIM(H${cells[i].row}) = ""),"No","Yes" )`
         } else {
-
           //otherwise, just write the values
           cells[i].value = arrayDateObjs[cells[i].row - 4][cells[i].col - 1]
         }
@@ -70,16 +89,6 @@ module.exports = {
     })
   },
 
-  //V3 addition of a data management sheet to contain previous values
-  writeToHistory(data){
-    var secondSheet = sheets[1]
-    sheet.getCells({'min-row': 4, 'max-row' : (data.length + 3),'min-col' : 1, 'max-col': 10, 'return-empty' : true}, (err, cells) => {
-      for(let i = 0; i < ((data.length) * 10); i++){
-        cells[i].value = ''
-      }
-      secondSheet.bulkUpdateCells(cells)
-    })
-  },
 
   initializeSheetWrite(data) {
     doc.useServiceAccountAuth(auth.creds, (error, success) => {
@@ -116,13 +125,19 @@ module.exports = {
             //   }
             // })
             // })
-            sheet.getCells({'min-row': 4, 'max-row' : (arrayDateObjs.length + 3),'min-col' : 1, 'max-col': 10, 'return-empty' : true}, (err, cells) => {
+            sheet.getCells({'min-row': 4, 'max-row' : (arrayDateObjs.length + 3),
+            'min-col' : 1, 'max-col': 10, 'return-empty' : true}, (err, cells) => {
+
               for(let i = 0; i < ((arrayDateObjs.length) * 10); i++){
-                if(arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === true || arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === false){
-                  arrayDateObjs[cells[i].row - 4][cells[i].col - 1] = JSON.stringify(arrayDateObjs[cells[i].row - 4][cells[i].col - 1])
+                if(arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === true ||
+                   arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === false){
+
+                  arrayDateObjs[cells[i].row - 4][cells[i].col - 1] =
+                  JSON.stringify(arrayDateObjs[cells[i].row - 4][cells[i].col - 1])
                 }
                 if(arrayDateObjs[cells[i].row - 4][cells[i].col - 1] === 'No'){
-                    cells[i].value = `=IF(OR(TRIM(G${cells[i].row}) = "", TRIM(H${cells[i].row}) = ""),"No","Yes" )`
+                    cells[i].value = `=IF(OR(TRIM(G${cells[i].row}) = "",
+                     TRIM(H${cells[i].row}) = ""),"No","Yes" )`
                 } else {
                   cells[i].value = arrayDateObjs[cells[i].row - 4][cells[i].col - 1]
                 }

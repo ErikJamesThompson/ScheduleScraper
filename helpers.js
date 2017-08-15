@@ -35,10 +35,13 @@ module.exports = {
         }
         //FILLER
 
-        if (event.summary === '#Interview Duty') { // || event.summary === 'Add Mock'Need to figure out better filter method
+        if (event.summary === '#Interview Duty') {
+          // || event.summary === 'Add Mock'Need to figure out better filter method
           slots.push(event);
           //had to add a check for the new system of assigning interviews
-        } else if (event.summary !== undefined && (event.summary.includes('Applicant Interview:') || event.summary.includes('Interview Online'))) {
+        } else if (event.summary !== undefined &&
+          (event.summary.includes('Applicant Interview:') ||
+          event.summary.includes('Interview Online'))) {
           interviews.push(event);
         }
       });
@@ -64,7 +67,8 @@ module.exports = {
 
   extractSlotsData: function (hirNumber, slots) {
     return slots.map(function(slot) {
-      return [slot.start.dateTime, people.hirs[hirNumber][0], people.hirs[hirNumber][1], people.hirs[hirNumber][2]];
+      return [slot.start.dateTime, people.hirs[hirNumber][0],
+      people.hirs[hirNumber][1], people.hirs[hirNumber][2]];
     });
   },
 
@@ -132,7 +136,8 @@ module.exports = {
       if (time[0] > 12) {
         time[0] -= 12;
       }
-      time = time[0] + ':' + time[1] + ' - ' + (time[0] + 1 > 12 ? 1 : time[0] + 1) + ':' + time[1];
+      time = time[0] + ':' + time[1] + ' - ' +
+      (time[0] + 1 > 12 ? 1 : time[0] + 1) + ':' + time[1];
       return [time, item[1], item[2], item[3]];
     });
 
@@ -148,9 +153,6 @@ module.exports = {
     // var twomorrowDate = new Date(nowDate.getTime() + 86400000 * 2);
 
     let n = d.toLocaleDateString()
-    // n = n.split('/')[1] += 1
-    // let date = n
-    // console.log(date)
     data.forEach((el) => {
       if(parseInt(el[0]) >= 8){
         el[4] = 'AM'
@@ -163,6 +165,8 @@ module.exports = {
     return arrayDateObjs
   },
 
+
+
   buildEmail: function (param, openings) {
     openings = this.organizeOpenings(this.flatten(openings));
 
@@ -173,7 +177,9 @@ module.exports = {
 
     if (openings.length > 0) {
       subject = 'HiR Free Hours Today';
-      message = 'Good morning everyone!\n\nThe following time slot' + (openings.length > 1 ? 's ' : ' ') + (openings.length > 1 ? 'are' : 'is') + ' available:\n\n';
+      message = 'Good morning everyone!\n\nThe following time slot' +
+      (openings.length > 1 ? 's ' : ' ') + (openings.length > 1 ? 'are' : 'is')
+       + ' available:\n\n';
       for (var i = 0; i < openings.length; i++) {
         message += openings[i][0] + ': ';
         message += openings[i][3] ? '***' : '';
@@ -181,20 +187,26 @@ module.exports = {
         message += openings[i][3] ? '***' : '';
         message += '\n';
       }
-      message += '\nHiRs with "***" next to their name are able to do Mock Interviews if you know of any alumnus who need one ASAP\n\nReply all to claim!\n\nThanks!\n-' + signiture;
+      message += '\nHiRs with "***" next to their name are able to do
+      Mock Interviews if you know of any alumnus who need one ASAP\n\nReply
+       all to claim!\n\nThanks!\n-' + signiture;
     } else {
       subject = 'No Free HiRs Today';
-      message = 'Good morning everyone,\nAll of our HiRs are all fully booked today.\n\nSorry!\n' + signiture;
+      message = 'Good morning everyone,\nAll of our HiRs are all fully
+      booked today.\n\nSorry!\n' + signiture;
     }
     if (param === 'me') {
-      // message += 'THIS PARTS FOR ME\n\nsfm.technical.mentors.team@hackreactor.com, sfm.counselors.team@hackreactor.com\nTo stop automatic emails, click here';
+      // message += 'THIS PARTS FOR ME\n\nsfm.technical.mentors.
+      //team@hackreactor.com, sfm.counselors.team@hackreactor.com\n
+      //To stop automatic emails, click here';
     }
     if (param === 'team') {
       to = people.team;
     }
     if (param === 'stop') {
       subject = 'STOPED';
-      message = 'you are getting this message because you shut off auto emailing.\nTo resume, click here';
+      message = 'you are getting this message because you shut off auto
+       emailing.\nTo resume, click here';
     }
 
     return {to: to, subject: subject, message: message};
@@ -228,8 +240,12 @@ module.exports = {
       };
     }
 
-    // var transporter = nodemailer.createTransport('smtps://' + (process.env.USRNAME || auth.gmailUsername) + ':' + (process.env.PSWRD || auth.gmailPassword) + '@smtp.gmail.com');
-    var transporter = nodemailer.createTransport('smtps://' + auth.gmailUsername + ':' + auth.gmailPassword + '@smtp.gmail.com');
+    // var transporter = nodemailer.createTransport('smtps://' +
+    //(process.env.USRNAME || auth.gmailUsername) + ':' + (process.env.PSWRD
+    //|| auth.gmailPassword) + '@smtp.gmail.com');
+
+    var transporter = nodemailer.createTransport('smtps://' +
+    auth.gmailUsername + ':' + auth.gmailPassword + '@smtp.gmail.com');
     transporter.sendMail(mailOptions, function (error, response) {
       if (error) {
         console.log(error);
